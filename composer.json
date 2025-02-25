@@ -3,7 +3,16 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Omarq\\ProyectoOmarPhpFinal\\": "src/"
+            "Omarq\\ProyectoOmarPhpFinal\\": "src/",
+            "Controllers\\": "./src/Controllers/",
+            "Lib\\": "./src/Lib/",
+            "Models\\": "./src/Models/",
+            "Views\\": "./src/Views/",
+            "Routes\\": "./src/Routes/",
+            "Config\\": "./src/Config/",
+            "Utils\\": "./src/Utils/",
+            "Services\\": "./src/Services/",
+            "Repositories\\": "./src/Repositories/"
         }
     },
     "authors": [
