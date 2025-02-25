@@ -1,0 +1,5 @@
+# Esto sirve para ocultar los directorios 
+# al acceder a la carpeta raíz del proyecto
+# y que solo muestre el index.php
+
+Options -Indexes

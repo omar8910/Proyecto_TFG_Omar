@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+    # Comprueba si el módulo mod_rewrite está habilitado en Apache
+
+    # Desactiva la opción Multiviews, que puede interferir con la reescritura de URLs
+    Options -Multiviews
+
+    # Activa el motor de reescritura de URLs
+    RewriteEngine on
+
+    # Comprueba si la solicitud no es un directorio
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Comprueba si la solicitud no es un archivo
+    RewriteCond %{REQUEST_FILENAME} !-f
+
+    # Redirige todas las solicitudes a index.php
+    # QSA (Query String Append) asegura que los parámetros de la consulta se añadan a la URL reescrita
+    # L (Last) indica que esta es la última regla y no se deben procesar más reglas
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>

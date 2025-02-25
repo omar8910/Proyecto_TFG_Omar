@@ -1,0 +1,16 @@
+# Redirige todas las peticiones a la carpeta public
+
+<IfModule mod_rewrite.c>
+# Activar Rewrite (para reescribir URLs)
+RewriteEngine on
+
+# Si el nombre del script no es un directorio
+RewriteCond %{SCRIPT_FILENAME} !-d
+# Si el nombre del script no es un archivo
+RewriteCond %{SCRIPT_FILENAME} !-f
+
+# Reescribe la URL base a la carpeta public
+RewriteRule ^$ public/ [L]
+# Reescribe cualquier otra URL a la carpeta public
+RewriteRule (.*) public/$1 [L]
+</IfModule>
