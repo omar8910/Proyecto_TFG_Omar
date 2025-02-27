@@ -39,11 +39,11 @@ class Routes
             return (new UsuarioController())->iniciarSesion();
         });
 
-        Router::add('GET', 'Usuario/registrarUsuarios/', function(){
+        Router::add('GET', 'Usuario/registrarUsuarios', function(){
             return (new UsuarioController())->registrarUsuario();
         });
 
-        Router::add('POST', 'Usuario/registrarUsuarios/', function(){
+        Router::add('POST', 'Usuario/registrarUsuarios', function(){
             return (new UsuarioController())->registrarUsuario();
         });
 
@@ -52,6 +52,12 @@ class Routes
             return (new UsuarioController())->cerrarSesion();
         });
 
+        // RUTAS DE ADMINISTRADOR
+        
+        // Apartado de usuarios
+        Router::add('GET', 'Administrador/mostrarUsuarios', function(){
+            return (new UsuarioController())->obtenerTodosUsuarios();
+        });
 
 
         // // Rutas Error
