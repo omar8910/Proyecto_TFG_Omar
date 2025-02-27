@@ -6,12 +6,17 @@ use Lib\BaseDatos;
 
 class Categoria
 {
-    // Constructor con promoción de propiedades
-    public function __construct(
-        private int $id,
-        private string $nombre,
-        private BaseDatos $BaseDatos = new BaseDatos()
-    ) {}
+    // Atributos
+    private int $id;
+    private string $nombre;
+    private BaseDatos $BaseDatos;
+
+    // Construcutor
+
+    public function __construct()
+    {
+        $this->BaseDatos = new BaseDatos();
+    }
 
     // Getters
     public function getId(): int
@@ -35,4 +40,3 @@ class Categoria
         $this->nombre = $nombre;
     }
 }
-?>
