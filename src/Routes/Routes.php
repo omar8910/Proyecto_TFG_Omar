@@ -6,6 +6,7 @@ namespace Routes;
 use Controllers\DashboardController;
 use Controllers\ErrorController;
 use Controllers\CategoriaController;
+use Controllers\ProductoController;
 
 
 use Lib\Router;
@@ -19,9 +20,14 @@ class Routes
             return (new DashboardController())->index();
         });
 
-        // Ruta ver categroria
+        // Ruta ver categoria
         Router::add('GET','Categoria/verCategoria/?id=:id', function($id){
             return (new CategoriaController())->verCategoria($id);
+        });
+
+        // Ruta ver detalles producto
+        Router::add('GET', 'Producto/verProducto/?id=:id', function($id){
+            return (new ProductoController())->verProducto($id);
         });
 
 

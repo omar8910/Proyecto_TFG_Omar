@@ -65,7 +65,7 @@
     .product a {
         display: inline-block;
         padding: 10px 20px;
-        background-color: #007bff;
+        background-color: #333;
         /* Color azul para el botón */
         color: #fff;
         /* Texto blanco */
@@ -75,7 +75,7 @@
     }
 
     .product a:hover {
-        background-color: #0056b3;
+        background-color: orange;
         /* Cambia el color al pasar el mouse */
     }
 
