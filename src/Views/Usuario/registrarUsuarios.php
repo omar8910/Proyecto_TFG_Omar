@@ -12,7 +12,8 @@ use Utils\Utils;
         display: flex;
         flex-direction: column;
         align-items: center;
-        min-height: 100vh;
+        justify-content: center;
+        min-height: 60vh;
     }
 
     .register-section h1 {
@@ -137,6 +138,7 @@ use Utils\Utils;
         <input type="email" name="datos[email]" id="email" required>
         <br>
         <label for="password">Contraseña:</label>
+        <input type="password" name="datos[password]" id="password" required>
         <br>
         <!-- Por defecto, en el repositorio de UsuarioRepository, al registrar a un usuario le damos el rol "usuario" -->
         <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol === 'administrador') : ?>
