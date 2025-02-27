@@ -21,9 +21,9 @@ class Routes
 
 
         // // Rutas Error
-        // Router::add('GET', '/errores/', function () {
-        //     return (new ErrorController())->error404();
-        // });
+        Router::add('GET', '/errores/', function () {
+            return (new ErrorController())->error404();
+        });
 
         Router::dispatch(); // Se encarga de ejecutar la ruta que se ha configurado basándose en la URL
     }
