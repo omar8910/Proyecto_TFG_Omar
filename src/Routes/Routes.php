@@ -7,7 +7,7 @@ use Controllers\DashboardController;
 use Controllers\ErrorController;
 use Controllers\CategoriaController;
 use Controllers\ProductoController;
-
+use Controllers\UsuarioController;
 
 use Lib\Router;
 
@@ -28,6 +28,28 @@ class Routes
         // Ruta ver detalles producto
         Router::add('GET', 'Producto/verProducto/?id=:id', function($id){
             return (new ProductoController())->verProducto($id);
+        });
+
+        // Ruta inicio de sesión y registro
+        Router::add('GET', 'Usuario/iniciarSesion/', function(){
+            return (new UsuarioController())->iniciarSesion();
+        });
+
+        Router::add('POST', 'Usuario/iniciarSesion/', function(){
+            return (new UsuarioController())->iniciarSesion();
+        });
+
+        Router::add('GET', 'Usuario/registrarUsuarios/', function(){
+            return (new UsuarioController())->registrarUsuario();
+        });
+
+        Router::add('POST', 'Usuario/registrarUsuarios/', function(){
+            return (new UsuarioController())->registrarUsuario();
+        });
+
+        // Ruta para cerrar sesión
+        Router::add('GET','Usuario/cerrarSesion/', function(){
+            return (new UsuarioController())->cerrarSesion();
         });
 
 
