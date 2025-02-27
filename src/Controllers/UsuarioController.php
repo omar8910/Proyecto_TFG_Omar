@@ -81,7 +81,6 @@ class UsuarioController
     public function registrarUsuario()
     {
         try {
-
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $datos = $this->validarFormulario($_POST['datos']);
                 if ($datos !== null) {
@@ -89,8 +88,7 @@ class UsuarioController
                     $usuarioCreado = $this->usuarioServices->create($usuario);
                     if ($usuarioCreado) {
                         $_SESSION['registro'] = 'correcto';
-                        header('Location: ' . BASE_URL);
-        
+                        $this->pages->render('Usuario/registrarUsuarios', ['mensaje' => 'Su usuario ha sido creado correctamente. Será redirigido a la página principal en 3 segundos.']);
                     } else {
                         $_SESSION['registro'] = 'incorrecto';
                         throw new Exception('Error al registrar el usuario');
@@ -142,6 +140,21 @@ class UsuarioController
                     $verificarUsuario = $this->usuarioServices->iniciarSesion($usuario);
                     if ($verificarUsuario) {
                         $_SESSION['inicioSesion'] = $verificarUsuario; // Guardamos el usuario en la sesión para tener acceso a sus datos
+                        // die(var_dump($_SESSION['inicioSesion']->email));
+
+                        // Si el usuario seleccionó "Recordar usuario", guardamos su correo en una cookie con duración de 7 días
+                        if (isset($_POST['remember'])) {
+                            // Guardar un estado de sesion para saber que eligió recordar usuario
+                            $_SESSION['recordarUsuario'] = true;
+
+                            // Crear cookie válida por 7 días
+                            // setcookie('usuario', $_SESSION['inicioSesion']->email, time() + (7 * 24 * 60 * 60), "/"); // Expira en 7 días
+                            // Valida para un minuto para probar
+                            setcookie('usuario', $_SESSION['inicioSesion']->email, time() + (1 * 60), "/"); // Expira en 1 minuto
+                        } else {
+                            $_SESSION['recordarUsuario'] = false; // No recordar
+                        }
+
                         header('Location: ' . BASE_URL);
                     } else {
                         $_SESSION['inicioSesion'] = 'incorrecto';
@@ -252,7 +265,12 @@ class UsuarioController
     public function cerrarSesion()
     {
         Utils::eliminarSesion('inicioSesion');
+        Utils::eliminarSesion('recordarUsuario');
+
+        // Eliminar cookie de usuario si existe
+        if (isset($_COOKIE['usuario'])) {
+            setcookie('usuario', '', time() - 3600, "/"); // Expira en el pasado
+        }
         header('Location: ' . BASE_URL);
     }
 }
- 

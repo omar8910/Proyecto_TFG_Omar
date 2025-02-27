@@ -113,11 +113,6 @@ use Utils\Utils;
         <?php endif; ?>
         <?php Utils::eliminarSesion('inicioSesion'); ?>
     <?php endif; ?>
-    <?php if (isset($mensajesError)) : ?>
-        <?php foreach ($mensajesError as $mensaje) : ?>
-            <p class="error-message"><?= $mensaje; ?></p>
-        <?php endforeach; ?>
-    <?php endif; ?>
 
     <?php if (!isset($_SESSION['inicioSesion']) || $_SESSION['inicioSesion'] == 'incorrecto') : ?>
         <form action="<?= BASE_URL; ?>Usuario/iniciarSesion" method="POST" class="login-form">
