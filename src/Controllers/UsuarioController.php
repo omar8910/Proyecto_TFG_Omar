@@ -87,9 +87,7 @@ class UsuarioController
                     $usuario = Usuario::fromArray($datos);
                     $usuarioCreado = $this->usuarioServices->create($usuario);
                     if ($usuarioCreado) {
-                        // die(var_dump($usuarioCreado));
                         $_SESSION['registro'] = 'correcto';
-                        // $this->pages->render('Usuario/registrarUsuarios', ['mensaje' => 'Su usuario ha sido creado correctamente. Será redirigido a la página principal en 3 segundos.']);
                         header('Location: ' . BASE_URL);
                     } else {
                         $_SESSION['registro'] = 'incorrecto';

@@ -31,11 +31,11 @@ class Routes
         });
 
         // Ruta inicio de sesión y registro
-        Router::add('GET', 'Usuario/iniciarSesion/', function(){
+        Router::add('GET', 'Usuario/iniciarSesion', function(){
             return (new UsuarioController())->iniciarSesion();
         });
 
-        Router::add('POST', 'Usuario/iniciarSesion/', function(){
+        Router::add('POST', 'Usuario/iniciarSesion', function(){
             return (new UsuarioController())->iniciarSesion();
         });
 
@@ -48,7 +48,7 @@ class Routes
         });
 
         // Ruta para cerrar sesión
-        Router::add('GET','Usuario/cerrarSesion/', function(){
+        Router::add('GET','Usuario/cerrarSesion', function(){
             return (new UsuarioController())->cerrarSesion();
         });
 
@@ -59,6 +59,17 @@ class Routes
             return (new UsuarioController())->obtenerTodosUsuarios();
         });
 
+        Router::add('GET', 'Administrador/eliminarUsuario/?id=:id', function ($id) {
+            return (new UsuarioController())->eliminarUsuario($id);
+        });
+
+        Router::add('GET', 'Administrador/editarUsuario/?id=:id', function ($id) {
+            return (new UsuarioController())->editarUsuario($id);
+        });
+
+        Router::add('POST', 'Administrador/actualizarUsuario', function () {
+            return (new UsuarioController())->actualizarUsuario();
+        });
 
         // // Rutas Error
         Router::add('GET', '/errores/', function () {

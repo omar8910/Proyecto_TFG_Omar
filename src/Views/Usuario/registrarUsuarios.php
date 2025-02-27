@@ -151,6 +151,7 @@ use Utils\Utils;
         <br>
         <input type="submit" value="Registrar">
     </form>
+
     <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol === 'administrador') : ?>
         <a href="<?= BASE_URL ?>Administrador/mostrarUsuarios" class="return-link">Volver</a>
     <?php else : ?>
