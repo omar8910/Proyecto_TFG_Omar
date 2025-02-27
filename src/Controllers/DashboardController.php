@@ -1,37 +1,31 @@
 <?php
 
 namespace Controllers;
+
+use Controllers\ProductoController;
+use Controllers\CategoriaController;
 use Lib\Pages;
 
 
-class DashboardController{
-    
+class DashboardController
+{
+
     private Pages $pages;
+    private ProductoController $productoController;
+    private CategoriaController $categoriaController;
 
-    
-    function __construct(){
 
+    function __construct()
+    {
         $this->pages = new Pages();
-
+        $this->productoController = new ProductoController();
+        $this->categoriaController = new CategoriaController();
     }
 
-    public function index(): void{
-        $productos = [
-            ['nombre' => 'Producto 1', 'precio' => 100],
-            ['nombre' => 'Producto 2', 'precio' => 200],
-            ['nombre' => 'Producto 3', 'precio' => 300],
-            ['nombre' => 'Producto 4', 'precio' => 400],
-            ['nombre' => 'Producto 5', 'precio' => 500],
-        ];
-
-        $categorias = [
-            ['nombre' => 'Categoria 1'],
-            ['nombre' => 'Categoria 2'],
-            ['nombre' => 'Categoria 3'],
-            ['nombre' => 'Categoria 4'],
-            ['nombre' => 'Categoria 5'],
-        ];
-        
+    public function index(): void
+    {
+        $productos = $this->productoController->obtenerProductosAlAzar();
+        $categorias = $this->categoriaController->obtenerTodasCategorias();
         $this->pages->render('Dashboard/index', ['productos' => $productos, 'categorias' => $categorias]);
     }
 }
