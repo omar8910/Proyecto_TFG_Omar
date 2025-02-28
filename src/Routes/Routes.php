@@ -8,6 +8,7 @@ use Controllers\ErrorController;
 use Controllers\CategoriaController;
 use Controllers\ProductoController;
 use Controllers\UsuarioController;
+use Controllers\CarritoController;
 
 use Lib\Router;
 
@@ -50,6 +51,11 @@ class Routes
         // Ruta para cerrar sesión
         Router::add('GET', 'Usuario/cerrarSesion', function () {
             return (new UsuarioController())->cerrarSesion();
+        });
+
+        // Ruta para carrito
+        Router::add('GET', 'Carrito/verCarrito', function () {
+            return (new CarritoController())->mostrarCarrito();
         });
 
         // RUTAS DE ADMINISTRADOR
