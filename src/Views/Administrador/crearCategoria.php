@@ -49,7 +49,7 @@
     }
 
     .btn-primary {
-        background-color: #007BFF;
+        background-color: #333;
         color: white;
         border-radius: 5px;
         padding: 10px;
@@ -60,7 +60,16 @@
     }
 
     .btn-primary:hover {
-        background-color: #0056b3;
+        background-color: orange;
+    }
+
+    .volver {
+        margin-top: 10px;
+        border: 1px solid white;
+        color: white;
+        text-decoration: none;
+        width: 50%;
+
     }
 
     .success-message {
@@ -109,7 +118,8 @@ use Utils\Utils; ?>
                 <input type="text" name="nombre" id="nombre" required>
                 <input type="submit" value="Crear" class="btn btn-primary">
             </form>
-
+            <a href="<?= BASE_URL; ?>Administrador/gestionarCategorias" class="btn btn-primary volver">Volver</a>
+ 
         <?php else : ?>
             <h1 class="access-denied">Acceso denegado</h1>
         <?php endif; ?>
