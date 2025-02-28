@@ -90,6 +90,14 @@ class Routes
             return (new CategoriaController())->eliminarCategoria($id);
         });
 
+        Router::add('GET', 'Administrador/editarCategoria/?id=:id', function ($id) {
+            return (new CategoriaController())->editarCategoria($id);
+        });
+
+        Router::add('POST', 'Administrador/actualizarCategoria', function () {
+            return (new CategoriaController())->actualizarCategoria();
+        });
+
         // Rutas Error
         Router::add('GET', '/errores/', function () {
             return (new ErrorController())->error404();
