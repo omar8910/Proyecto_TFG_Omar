@@ -189,8 +189,13 @@ class UsuarioController
     }
 
     // Método para validar la edición de un usuario
-    public function validarEdicionUsuario($datos)
+    private function validarEdicionUsuario($datos)
     {
+        // Verificar que los datos no estén vacíos
+        if (empty($datos['nombre']) || empty($datos['apellidos']) || empty($datos['email']) || empty($datos['rol'])) {
+            throw new Exception('Todos los campos son obligatorios.');
+        }
+
         // Saneamiento de datos
         $id = filter_var($datos['id'], FILTER_SANITIZE_NUMBER_INT);
         $nombre = filter_var($datos['nombre'], FILTER_SANITIZE_STRING);
@@ -200,25 +205,26 @@ class UsuarioController
         $password = filter_var($datos['password'], FILTER_SANITIZE_STRING);
 
         // Validación con expresiones regulares (patrones)
-
         $patronNombre = "/^[a-zA-ZáéíóúÁÉÍÓÚ '-]*$/";  // Solo letras y espacios y apóstrofes
         $patronApellido = "/^[a-zA-ZáéíóúÁÉÍÓÚ '-]*$/";  // Solo letras, espacios, apóstrofes y guiones
         $patronCorreo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/"; // Formato de correo electrónico
         $patronPassword = "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/"; //  Al menos una letra y un número, mínimo 6 caracteres
 
-
-
-        if (empty($nombre) || !preg_match($patronNombre, $nombre)) {
+        // Validar el formato de los campos
+        if (!preg_match($patronNombre, $nombre)) {
             throw new Exception('El nombre solo debe contener letras, espacios y apóstrofes.');
         }
-        if (empty($apellidos) || !preg_match($patronApellido, $apellidos)) {
+        if (!preg_match($patronApellido, $apellidos)) {
             throw new Exception('Los apellidos solo deben contener letras, espacios, apóstrofes y guiones.');
         }
-        if (empty($email) || !preg_match($patronCorreo, $email)) {
+        if (!preg_match($patronCorreo, $email)) {
             throw new Exception('El correo electrónico debe seguir el formato example@example.com.');
         }
 
-
+        // Si se proporciona una contraseña, validar su formato
+        if (!empty($password) && !preg_match($patronPassword, $password)) {
+            throw new Exception('La contraseña debe tener al menos una letra, un número y un mínimo de 6 caracteres.');
+        }
 
         return [
             'id' => $id,
@@ -226,10 +232,9 @@ class UsuarioController
             'apellidos' => $apellidos,
             'email' => $email,
             'rol' => $rol,
-            'password' => $this->encriptarPassword($password)
+            'password' => !empty($password) ? $this->encriptarPassword($password) : null
         ];
     }
-
     // Método para actualizar un usuario
     public function actualizarUsuario()
     {
@@ -238,28 +243,23 @@ class UsuarioController
                 $datos = $this->validarEdicionUsuario($_POST['datos']);
                 if ($datos !== null) {
                     $usuario = Usuario::fromArray($datos);
-                    var_dump($usuario);
                     $usuarioActualizado = $this->usuarioServices->update($usuario);
                     if ($usuarioActualizado) {
-                        var_dump($usuarioActualizado);
                         $_SESSION['actualizacion'] = 'correcta';
-                        header('Location: ' . BASE_URL . 'Administrador/mostrarUsuarios');
                     } else {
                         $_SESSION['actualizacion'] = 'incorrecta';
-                        header('Location: ' . BASE_URL . 'Administrador/mostrarUsuarios');
                     }
                 } else {
                     $_SESSION['actualizacion'] = 'incorrecta';
-                    header('Location: ' . BASE_URL . 'Administrador/mostrarUsuarios');
                 }
+                header('Location: ' . BASE_URL . 'Administrador/mostrarUsuarios');
             }
         } catch (Exception $e) {
             $_SESSION['actualizacion'] = 'incorrecta';
-            $this->mensajesError[] = $e->getMessage();
-            $this->pages->render('Administrador/mostrarUsuarios', ['mensajesError' => $this->mensajesError]);
+            $_SESSION['mensajesError'] = [$e->getMessage()]; // Guardar el mensaje de error en la sesión
+            header('Location: ' . BASE_URL . 'Administrador/mostrarUsuarios');
         }
     }
-
     // Método para eliminar un usuario
     public function eliminarUsuario($id)
     {
