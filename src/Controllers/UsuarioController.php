@@ -85,7 +85,7 @@ class UsuarioController
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $datos = $this->validarFormulario($_POST['datos']);
-            // die(var_dump($datos));
+                // die(var_dump($datos));
 
                 if ($datos !== null) {
                     $usuario = Usuario::fromArray($datos);
@@ -95,7 +95,7 @@ class UsuarioController
                     if ($usuarioCreado) {
                         // die(var_dump($usuarioCreado));
                         $_SESSION['registro'] = 'correcto';
-                        header('Location: ' . BASE_URL);
+                        header('Location: ' . BASE_URL . 'Usuario/iniciarSesion');
                     } else {
                         $_SESSION['registro'] = 'incorrecto';
                         throw new Exception('Error al registrar el usuario');
@@ -268,16 +268,52 @@ class UsuarioController
     }
 
 
-    // Método para cerrar sesión
     public function cerrarSesion()
     {
+        // Eliminar la sesión de inicio de sesión
         Utils::eliminarSesion('inicioSesion');
         Utils::eliminarSesion('recordarUsuario');
+
+        // Eliminar el carrito asociado al usuario
+        if (isset($_SESSION['carrito'])) {
+            unset($_SESSION['carrito']); // Elimina el carrito de la sesión
+        }
 
         // Eliminar cookie de usuario si existe
         if (isset($_COOKIE['usuario'])) {
             setcookie('usuario', '', time() - 3600, "/"); // Expira en el pasado
         }
+
+        // Redirigir al inicio de sesión
         header('Location: ' . BASE_URL);
+    }
+
+    public function editarPerfil()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $datos = $_POST['datos'];
+
+            // Convertir el array en un objeto Usuario
+            $usuario = Usuario::fromArray($datos);
+
+            // Validar los datos del formulario
+            $usuarioActualizado = $this->usuarioServices->update($usuario);
+
+            if ($usuarioActualizado) {
+                // Actualizar los datos del usuario en la sesión
+                $_SESSION['inicioSesion']->nombre = $usuario->getNombre();
+                $_SESSION['inicioSesion']->apellidos = $usuario->getApellidos();
+                $_SESSION['inicioSesion']->email = $usuario->getEmail();
+
+                $_SESSION['actualizacion'] = 'correcta';
+                header('Location: ' . BASE_URL . 'Usuario/editarPerfil');
+            } else {
+                $_SESSION['actualizacion'] = 'incorrecta';
+            }
+        } else {
+            // Obtener los datos del usuario actual
+            $usuario = $this->usuarioServices->getById($_SESSION['inicioSesion']->id);
+            $this->pages->render('Usuario/editarPerfil', ['usuario' => $usuario]);
+        }
     }
 }

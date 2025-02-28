@@ -89,6 +89,14 @@
         background-color: #218838;
     }
 
+    .checkout-button .vaciarCarrito button {
+        background-color: #dc3545;
+    }   
+
+    .checkout-button .vaciarCarrito button:hover {
+        background-color: #c82333;
+    }
+
     .error-message {
         text-align: center;
         color: white;
@@ -193,6 +201,9 @@
                     <?php endif; ?>
                 </div>
                 <div class="checkout-button">
+                    <a class="vaciarCarrito" href="<?= BASE_URL ?>Carrito/vaciarCarrito">
+                        <button>Vaciar Carrito</button>
+                    </a>
                     <a href="<?= BASE_URL ?>Pedido/verPedido">
                         <button>Realizar Pedido</button>
                     </a>

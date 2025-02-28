@@ -136,7 +136,7 @@
                     <li><a href="<?= BASE_URL ?>Usuario/iniciarSesion">Iniciar sesión</a></li>
                     <li><a href="<?= BASE_URL ?>Usuario/registrarUsuarios">Registro</a></li>
                     <li><a href="<?= BASE_URL ?>Carrito/verCarrito">Carrito: <?= isset($_SESSION['carrito']) ? count($_SESSION['carrito']) : 0 ?></a></li>
-                    
+
 
                 <?php endif; ?>
             </ul>
@@ -145,6 +145,7 @@
                     <li><a href="<?= BASE_URL ?>Pedido/misPedidos">Mis pedidos</a></li>
                     <li><a href="<?= BASE_URL ?>Carrito/verCarrito">Carrito: <?= isset($_SESSION['carrito']) ? count($_SESSION['carrito']) : 0 ?></a></li>
                     <li class="user-info">Usuario: <?= $_SESSION['inicioSesion']->nombre . " " . $_SESSION['inicioSesion']->apellidos ?></li>
+                    <li><a href="<?= BASE_URL ?>Usuario/editarPerfil">Editar perfil</a></li>
                     <li><a href="<?= BASE_URL ?>Usuario/cerrarSesion">Cerrar sesión</a></li>
                 <?php endif; ?>
             </ul>

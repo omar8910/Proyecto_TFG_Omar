@@ -53,6 +53,15 @@ class Routes
             return (new UsuarioController())->cerrarSesion();
         });
 
+        // Ruta para editar perfil de usuario
+        Router::add('GET', 'Usuario/editarPerfil', function () {
+            return (new UsuarioController())->editarPerfil();
+        });
+
+        Router::add('POST', 'Usuario/editarPerfil', function () {
+            return (new UsuarioController())->editarPerfil();
+        });
+
         // Rutas para carrito
         Router::add('GET', 'Carrito/verCarrito', function () {
             return (new CarritoController())->mostrarCarrito();
@@ -74,6 +83,9 @@ class Routes
             return (new CarritoController())->restarProductos($id);
         });
 
+        Router::add('GET', 'Carrito/vaciarCarrito', function () {
+            return (new CarritoController())->vaciarCarrito();
+        });
 
 
         

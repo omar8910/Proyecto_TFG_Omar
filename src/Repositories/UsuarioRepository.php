@@ -164,23 +164,22 @@ class UsuarioRepository
     // Método para actualizar los datos de un usuario
     public function update($usuario)
     {
+        var_dump($usuario);
         $id = $usuario->getId();
         $nombre = $usuario->getNombre();
         $apellidos = $usuario->getApellidos();
         $email = $usuario->getEmail();
-        $password = $usuario->getPassword();
-        $rol = $usuario->getRol();
+        // No se actualiza la contraseña
+
         try {
             // Preparamos la consulta
-            $upd = $this->BaseDatos->prepara("UPDATE usuarios SET nombre = :nombre, apellidos = :apellidos, email = :email, password = :password, rol = :rol WHERE id = :id");
+            $upd = $this->BaseDatos->prepara("UPDATE usuarios SET nombre = :nombre, apellidos = :apellidos, email = :email WHERE id = :id");
 
             // Vinculamos las variables
             $upd->bindParam(":id", $id, PDO::PARAM_INT);
             $upd->bindParam(":nombre", $nombre, PDO::PARAM_STR);
             $upd->bindParam(":apellidos", $apellidos, PDO::PARAM_STR);
             $upd->bindParam(":email", $email, PDO::PARAM_STR);
-            $upd->bindParam(":password", $password, PDO::PARAM_STR);
-            $upd->bindParam(":rol", $rol, PDO::PARAM_STR);
 
             // Ejecutamos la consulta
             $upd->execute();
@@ -189,21 +188,15 @@ class UsuarioRepository
             $success = false;
             echo ("Error al actualizar el usuario: " . $error->getMessage());
         } finally {
-            // Este bloque se ejecuta siempre, independientemente de si se ha producido una excepción o no
-            // así liberamos los recursos utilizados.ç
-
-            // Cerramos la consulta
             if ($upd) {
-                // Hacemos esta comprobación para evitar errores si upd es null
                 $upd->closeCursor();
                 $upd = null;
             }
         }
-        // Cerramos la conexión
-        // $this->BaseDatos = null;
         $this->BaseDatos->close();
         return $success;
     }
+
 
     // Método para eliminar un usuario
     public function delete($id)
