@@ -77,7 +77,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        min-height: max-content;
+        min-height: 65vh;
     }
 
     .category-section .section-title {

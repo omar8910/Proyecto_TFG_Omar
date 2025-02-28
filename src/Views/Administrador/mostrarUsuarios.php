@@ -7,7 +7,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        min-height: fit-content;
+        min-height: 65vh;
     }
 
     .panel-title {
