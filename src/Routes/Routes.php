@@ -21,41 +21,41 @@ class Routes
         });
 
         // Ruta ver categoria
-        Router::add('GET','Categoria/verCategoria/?id=:id', function($id){
+        Router::add('GET', 'Categoria/verCategoria/?id=:id', function ($id) {
             return (new CategoriaController())->verCategoria($id);
         });
 
         // Ruta ver detalles producto
-        Router::add('GET', 'Producto/verProducto/?id=:id', function($id){
+        Router::add('GET', 'Producto/verProducto/?id=:id', function ($id) {
             return (new ProductoController())->verProducto($id);
         });
 
         // Ruta inicio de sesión y registro
-        Router::add('GET', 'Usuario/iniciarSesion', function(){
+        Router::add('GET', 'Usuario/iniciarSesion', function () {
             return (new UsuarioController())->iniciarSesion();
         });
 
-        Router::add('POST', 'Usuario/iniciarSesion', function(){
+        Router::add('POST', 'Usuario/iniciarSesion', function () {
             return (new UsuarioController())->iniciarSesion();
         });
 
-        Router::add('GET', 'Usuario/registrarUsuarios', function(){
+        Router::add('GET', 'Usuario/registrarUsuarios', function () {
             return (new UsuarioController())->registrarUsuario();
         });
 
-        Router::add('POST', 'Usuario/registrarUsuarios', function(){
+        Router::add('POST', 'Usuario/registrarUsuarios', function () {
             return (new UsuarioController())->registrarUsuario();
         });
 
         // Ruta para cerrar sesión
-        Router::add('GET','Usuario/cerrarSesion', function(){
+        Router::add('GET', 'Usuario/cerrarSesion', function () {
             return (new UsuarioController())->cerrarSesion();
         });
 
         // RUTAS DE ADMINISTRADOR
-        
+
         // Apartado de usuarios
-        Router::add('GET', 'Administrador/mostrarUsuarios', function(){
+        Router::add('GET', 'Administrador/mostrarUsuarios', function () {
             return (new UsuarioController())->obtenerTodosUsuarios();
         });
 
@@ -71,7 +71,14 @@ class Routes
             return (new UsuarioController())->actualizarUsuario();
         });
 
-        // // Rutas Error
+
+        // Apartado de categorias
+
+        Router::add('GET', 'Administrador/gestionarCategorias', function () {
+            return (new CategoriaController())->gestionarCategorias();
+        });
+
+        // Rutas Error
         Router::add('GET', '/errores/', function () {
             return (new ErrorController())->error404();
         });
