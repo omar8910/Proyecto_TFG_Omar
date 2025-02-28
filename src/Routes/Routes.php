@@ -86,6 +86,10 @@ class Routes
             return (new CategoriaController())->crearCategoria();
         });
 
+        Router::add('GET', 'Administrador/eliminarCategoria/?id=:id', function ($id) {
+            return (new CategoriaController())->eliminarCategoria($id);
+        });
+
         // Rutas Error
         Router::add('GET', '/errores/', function () {
             return (new ErrorController())->error404();
