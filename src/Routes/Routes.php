@@ -78,6 +78,14 @@ class Routes
             return (new CategoriaController())->gestionarCategorias();
         });
 
+        Router::add('GET', 'Administrador/crearCategoria', function () {
+            return (new CategoriaController())->crearCategoria();
+        });
+
+        Router::add('POST', 'Administrador/crearCategoria', function () {
+            return (new CategoriaController())->crearCategoria();
+        });
+
         // Rutas Error
         Router::add('GET', '/errores/', function () {
             return (new ErrorController())->error404();
