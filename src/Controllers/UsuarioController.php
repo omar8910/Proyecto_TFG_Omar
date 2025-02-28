@@ -41,6 +41,7 @@ class UsuarioController
         $apellidos = filter_var($datos['apellidos'], FILTER_SANITIZE_STRING);
         $email = filter_var($datos['email'], FILTER_VALIDATE_EMAIL);
         $password = filter_var($datos['password'], FILTER_SANITIZE_STRING);
+        $rol = filter_var($datos['rol'], FILTER_SANITIZE_STRING);
 
         // Validación con expresiones regulares (patrones)
 
@@ -66,7 +67,8 @@ class UsuarioController
             'nombre' => $nombre,
             'apellidos' => $apellidos,
             'email' => $email,
-            'password' => $this->encriptarPassword($password)
+            'password' => $this->encriptarPassword($password),
+            'rol' => $rol
         ];
     }
 
@@ -83,10 +85,15 @@ class UsuarioController
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $datos = $this->validarFormulario($_POST['datos']);
+            // die(var_dump($datos));
+
                 if ($datos !== null) {
                     $usuario = Usuario::fromArray($datos);
+                    // die(var_dump($usuario));
                     $usuarioCreado = $this->usuarioServices->create($usuario);
+                    // die(var_dump($usuarioCreado));
                     if ($usuarioCreado) {
+                        // die(var_dump($usuarioCreado));
                         $_SESSION['registro'] = 'correcto';
                         header('Location: ' . BASE_URL);
                     } else {

@@ -40,11 +40,11 @@ class UsuarioRepository
         $password = $usuario->getPassword();
 
         if (isset($_POST['datos']['rol'])) {
-            $rol = $_POST['datos']['rol'];
-            $rol = $usuario->setRol($rol);
+            $usuario->setRol($_POST['datos']['rol']);
         } else {
-            $rol = 'usuario';
+            $usuario->setRol('usuario');
         }
+        $rol = $usuario->getRol();
 
 
         try {
