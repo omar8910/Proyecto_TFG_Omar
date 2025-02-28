@@ -171,6 +171,7 @@
                     <div class="product">
                         <img src="<?= BASE_URL ?>public/img/productos/<?= ($producto["imagen"]) ?>" alt="<?= ($producto["nombre"]) ?>">
                         <h2><?= ($producto["nombre"]) ?></h2>
+                        <p><?= ($producto["descripcion"]) ?></p>
                         <p class="price">Precio: $<?= number_format($producto["precio"], 2) ?></p>
                         <a href="<?= BASE_URL ?>Producto/verProducto/?id=<?= $producto['id'] ?>">Ver detalles</a>
                     </div>
