@@ -48,7 +48,8 @@ class CarritoController
         }
         $productos = $_SESSION['carrito'];
         $cantidadProductos = $this->cantidadProductos();
-        $this->pages->render('Carrito/verCarrito', ['productos' => $productos, 'cantidadProductos' => $cantidadProductos]);
+        $cantidadDinero = $this->cantidadDineroTotal();
+        $this->pages->render('Carrito/verCarrito', ['productos' => $productos, 'cantidadProductos' => $cantidadProductos, 'cantidadDinero' => $cantidadDinero]);
     }
 
     // Eliminar todos los productos del carrito
@@ -59,14 +60,27 @@ class CarritoController
     }
 
     // Sumar la cantidad de productos
+    // Sumar la cantidad de productos
     public function sumarProductos($id)
     {
         $id_producto = $id;
+
         if (isset($_SESSION['carrito'][$id_producto])) {
-            $_SESSION['carrito'][$id_producto]['cantidad']++;
+            // Obtener el stock del producto
+            $stockDisponible = $_SESSION['carrito'][$id_producto]['stock'];
+
+            // Comprobar si se puede añadir más
+            if ($_SESSION['carrito'][$id_producto]['cantidad'] < $stockDisponible) {
+                $_SESSION['carrito'][$id_producto]['cantidad']++;
+            } else {
+                // Guardar mensaje de error en sesión
+                $_SESSION['error_carrito'] = "No puedes agregar más de " . $stockDisponible . " unidades de este producto.";
+            }
         }
+
         header('Location:' . BASE_URL . 'Carrito/verCarrito');
     }
+
 
     // Restar la cantidad de productos
     public function restarProductos($id)
@@ -84,12 +98,23 @@ class CarritoController
     // Método para obtener la cantidad de productos
     public function cantidadProductos()
     {
-        $cantidad = 0;
+        $cantidadProductos = 0;
         if (isset($_SESSION['carrito'])) {
             foreach ($_SESSION['carrito'] as $producto) {
-                $cantidad += $producto['cantidad'] * $producto['precio'];
+                $cantidadProductos += $producto['cantidad'];
             }
         }
-        return $cantidad;
+        return $cantidadProductos;
+    }
+
+    public function cantidadDineroTotal()
+    {
+        $cantidadDinero = 0;
+        if (isset($_SESSION['carrito'])) {
+            foreach ($_SESSION['carrito'] as $producto) {
+                $cantidadDinero += $producto['cantidad'] * $producto['precio'];
+            }
+        }
+        return $cantidadDinero;
     }
 }

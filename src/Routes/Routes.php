@@ -53,10 +53,30 @@ class Routes
             return (new UsuarioController())->cerrarSesion();
         });
 
-        // Ruta para carrito
+        // Rutas para carrito
         Router::add('GET', 'Carrito/verCarrito', function () {
             return (new CarritoController())->mostrarCarrito();
         });
+
+        Router::add('GET', 'Carrito/agregarProducto/?id=:id', function ($id) {
+            return (new CarritoController())->agregarProducto($id);
+        });
+
+        Router::add('GET', 'Carrito/eliminarProducto/?id=:id', function ($id) {
+            return (new CarritoController())->eliminarProducto($id);
+        });
+
+        Router::add('GET', 'Carrito/sumarProductos/?id=:id', function ($id) {
+            return (new CarritoController())->sumarProductos($id);
+        });
+
+        Router::add('GET', 'Carrito/restarProductos/?id=:id', function ($id) {
+            return (new CarritoController())->restarProductos($id);
+        });
+
+
+
+        
 
         // RUTAS DE ADMINISTRADOR
 
