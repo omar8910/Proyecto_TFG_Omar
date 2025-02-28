@@ -97,6 +97,12 @@ class Routes
         Router::add('POST', 'Administrador/actualizarCategoria', function () {
             return (new CategoriaController())->actualizarCategoria();
         });
+        
+        // Apartado de productos
+
+        Router::add('GET', 'Administrador/gestionarProductos', function () {
+            return (new ProductoController())->gestionarProductos();
+        });
 
         // Rutas Error
         Router::add('GET', '/errores/', function () {
