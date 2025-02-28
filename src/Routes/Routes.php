@@ -104,6 +104,10 @@ class Routes
             return (new ProductoController())->gestionarProductos();
         });
 
+        Router::add('GET', 'Administrador/crearProducto', function () {
+            return (new ProductoController())->crearProducto();
+        });
+
         // Rutas Error
         Router::add('GET', '/errores/', function () {
             return (new ErrorController())->error404();
