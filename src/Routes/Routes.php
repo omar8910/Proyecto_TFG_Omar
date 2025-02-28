@@ -112,6 +112,18 @@ class Routes
             return (new ProductoController())->crearProducto();
         });
 
+        Router::add('GET', 'Administrador/eliminarProducto/?id=:id', function ($id) {
+            return (new ProductoController())->eliminarProducto($id);
+        });
+
+        Router::add('GET', 'Administrador/editarProducto/?id=:id', function ($id) {
+            return (new ProductoController())->editarProducto($id);
+        });
+
+        Router::add('POST', 'Administrador/editarProducto', function () {
+            return (new ProductoController())->editarProducto();
+        });
+
         // Rutas Error
         Router::add('GET', '/errores/', function () {
             return (new ErrorController())->error404();
