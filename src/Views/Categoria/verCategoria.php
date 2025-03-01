@@ -163,7 +163,7 @@
             <div class="no-products">
                 <h2>No se añadieron productos a esta categoría</h2>
                 <p>Lo sentimos.</p>
-                <img src="<?= BASE_URL ?>public/img/productos/mono.jfif" alt="No hay productos">
+                <img src="<?= BASE_URL ?>public/img/sin_productos/mono.jfif" alt="No hay productos">
             </div>
         <?php else : ?>
             <div class="product-container">
