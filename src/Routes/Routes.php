@@ -9,6 +9,7 @@ use Controllers\CategoriaController;
 use Controllers\ProductoController;
 use Controllers\UsuarioController;
 use Controllers\CarritoController;
+use Controllers\PedidoController;
 
 use Lib\Router;
 
@@ -87,6 +88,10 @@ class Routes
             return (new CarritoController())->vaciarCarrito();
         });
 
+        // Rutas para pedidos
+        Router::add('GET', 'Pedido/misPedidos', function () {
+            return (new PedidoController())->misPedidos();
+        });
 
         
 
