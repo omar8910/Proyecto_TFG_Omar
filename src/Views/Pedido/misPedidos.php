@@ -8,6 +8,7 @@
         color: white;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* min-height: 65vh; */
     }
 
     .orders-container h1 {
@@ -53,6 +54,33 @@
         margin-top: 20px;
     }
 
+    .orders-containerFormat {
+        min-height: 65vh;
+    }
+
+    .no-pedidos-message {
+        text-align: center;
+        /* Centrar horizontalmente */
+        margin: 50px auto;
+        /* Centrar verticalmente y dar espacio */
+        padding: 20px;
+        /* Espaciado interno */
+        font-size: 1.5em;
+        /* Tamaño de fuente */
+        color: orange;
+        /* Color del texto */
+        font-weight: bold;
+        /* Texto en negrita */
+        background-color: #444;
+        /* Fondo oscuro */
+        border-radius: 10px;
+        /* Bordes redondeados */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* Sombra suave */
+        max-width: 400px;
+        /* Ancho máximo del mensaje */
+    }
+
     @media (max-width: 768px) {
 
         .orders-container th,
@@ -65,35 +93,42 @@
         }
     }
 </style>
-
-<section class="orders-container">
-    <h1>Mis Pedidos</h1>
-    <?php if (isset($_SESSION['inicioSesion']) && $pedidos >= 1) : ?>
-        <table>
-            <tr>
-                <th>Id</th>
-                <th>Coste</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Estado</th>
-                <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol == 'administrador') : ?>
-                    <th>Confirmar Pedido</th>
-                <?php endif; ?>
-            </tr>
-            <?php foreach ($pedidos as $pedido) : ?>
-                <tr>
-                    <td><a href="<?= BASE_URL ?>Pedido/verPedido/?id=<?= $pedido['id'] ?>"><?= $pedido['id'] ?></a></td>
-                    <td><?= $pedido['coste'] ?>€</td>
-                    <td><?= $pedido['fecha'] ?></td>
-                    <td><?= $pedido['hora'] ?></td>
-                    <td><?= $pedido['estado'] ?></td>
-                    <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol == 'administrador') : ?>
-                        <td><a href="<?= BASE_URL ?>Administrador/gestionarPedidos">Confirmar pedido</i></a></td>
-                    <?php endif; ?>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php else : ?>
-        <strong class="alert_red">No has realizado ningun pedido</strong>
-    <?php endif; ?>
-</section>
+<div class="orders-containerFormat">
+    <section class="orders-container">
+        <h1>Mis Pedidos</h1>
+        <?php if (isset($_SESSION['inicioSesion']) && !empty($pedidos)) : ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Coste</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Estado</th>
+                        <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol == 'administrador') : ?>
+                            <th>Confirmar Pedido</th>
+                        <?php endif; ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($pedidos as $pedido) : ?>
+                        <tr>
+                            <td><a href="<?= BASE_URL ?>Pedido/verPedido/?id=<?= $pedido['id'] ?>"><?= $pedido['id'] ?></a></td>
+                            <td><?= $pedido['coste'] ?>€</td>
+                            <td><?= $pedido['fecha'] ?></td>
+                            <td><?= $pedido['hora'] ?></td>
+                            <td><?= $pedido['estado'] ?></td>
+                            <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol == 'administrador') : ?>
+                                <td><a href="<?= BASE_URL ?>Administrador/gestionarPedidos">Confirmar pedido</i></a></td>
+                            <?php endif; ?>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else : ?>
+            <div class="no-pedidos-message">
+                No has realizado ningún pedido
+            </div>
+        <?php endif; ?>
+    </section>
+</div>
