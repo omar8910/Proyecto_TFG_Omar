@@ -13,8 +13,8 @@ class ProductoServices{
         return $this->productoRepository->create($categoria_id, $nombre, $descripcion, $precio, $stock, $imagen);
     }
 
-    public function update($id, $nombre, $descripcion, $precio, $categoria_id, $imagen){
-        return $this->productoRepository->update($id, $nombre, $descripcion, $precio, $categoria_id, $imagen);
+    public function update($id, $nombre, $descripcion, $precio, $categoria_id, $imagen, $stock){
+        return $this->productoRepository->update($id, $nombre, $descripcion, $precio, $categoria_id, $imagen, $stock);
     }
 
     public function delete($id){

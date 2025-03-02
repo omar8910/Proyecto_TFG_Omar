@@ -88,11 +88,13 @@ class ProductoController
     public function editarProducto()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Obtener los datos del formulario
             $id = $_POST['id'];
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
             $precio = $_POST['precio'];
             $categoria_id = $_POST['nombre_categoria'];
+            $stock = $_POST['stock']; // Nuevo campo: stock
 
             // Obtener el producto actual para manejar la imagen
             $productoActual = $this->productoServices->getById($id);
@@ -133,17 +135,19 @@ class ProductoController
                 $imagenNombre = $imagenActual;
             }
 
-            // Actualizar en la base de datos
-            $this->productoServices->update($id, $nombre, $descripcion, $precio, $categoria_id, $imagenNombre);
+            // Actualizar en la base de datos (incluyendo el stock)
+            $this->productoServices->update($id, $nombre, $descripcion, $precio, $categoria_id, $imagenNombre, $stock);
 
             // Redirigir a la gestión de productos
             header('Location: ' . BASE_URL . 'Administrador/gestionarProductos');
             exit();
         } else {
+            // Obtener el producto y las categorías para mostrar el formulario de edición
             $id = $_GET['id'];
             $producto = $this->productoServices->getById($id);
             $categorias = $this->categoriaServices->obtenerTodasCategorias();
 
+            // Renderizar la vista de edición
             $this->pages->render("Administrador/editarProducto", ["producto" => $producto, "categorias" => $categorias]);
         }
     }

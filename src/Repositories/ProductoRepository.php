@@ -137,11 +137,11 @@ class ProductoRepository
         return $success;
     }
 
-    public function update($id, $nombre, $descripcion, $precio, $categoria_id, $imagen)
+    public function update($id, $nombre, $descripcion, $precio, $categoria_id, $imagen, $stock)
     {
         try {
             // Preparamos la consulta
-            $upd = $this->BaseDatos->prepara("UPDATE productos SET nombre = :nombre, descripcion = :descripcion, precio = :precio, categoria_id = :categoria_id, imagen = :imagen WHERE id = :id");
+            $upd = $this->BaseDatos->prepara("UPDATE productos SET nombre = :nombre, descripcion = :descripcion, precio = :precio, categoria_id = :categoria_id, imagen = :imagen, stock = :stock WHERE id = :id");
 
             // Vinculamos las variables
             $upd->bindParam(":id", $id, PDO::PARAM_INT);
@@ -150,6 +150,7 @@ class ProductoRepository
             $upd->bindParam(":precio", $precio, PDO::PARAM_STR);
             $upd->bindParam(":categoria_id", $categoria_id, PDO::PARAM_INT);
             $upd->bindParam(":imagen", $imagen, PDO::PARAM_STR);
+            $upd->bindParam(":stock", $stock, PDO::PARAM_INT);
             
 
             // Ejecutamos la consulta

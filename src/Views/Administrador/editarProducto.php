@@ -83,15 +83,23 @@
         <form action="<?= BASE_URL ?>Administrador/editarProducto" method="POST" enctype="multipart/form-data" id="editar-producto-form">
             <input type="hidden" name="id" value="<?= $producto['id'] ?>">
 
+            <!-- Nombre del producto -->
             <label for="nombre" class="form-label">Nombre</label>
             <input type="text" name="nombre" value="<?= htmlspecialchars($producto['nombre']) ?>" id="nombre-input" class="form-input">
 
+            <!-- Descripción del producto -->
             <label for="descripcion" class="form-label">Descripción</label>
             <input type="text" name="descripcion" value="<?= htmlspecialchars($producto['descripcion']) ?>" id="descripcion-input" class="form-input">
 
+            <!-- Precio del producto -->
             <label for="precio" class="form-label">Precio</label>
             <input type="text" name="precio" value="<?= htmlspecialchars($producto['precio']) ?>" id="precio-input" class="form-input">
 
+            <!-- Stock del producto -->
+            <label for="stock" class="form-label">Stock</label>
+            <input type="number" name="stock" value="<?= htmlspecialchars($producto['stock']) ?>" id="stock-input" class="form-input" min="0">
+
+            <!-- Categoría del producto -->
             <label for="nombre_categoria" class="form-label">Nombre Categoría</label>
             <select name="nombre_categoria" id="nombre_categoria" class="form-input">
                 <?php foreach ($categorias as $categoria) : ?>
@@ -101,14 +109,17 @@
                 <?php endforeach; ?>
             </select>
 
+            <!-- Imagen actual del producto -->
             <label for="imagen" class="form-label">Imagen Actual</label>
             <div>
                 <img src="<?= BASE_URL . 'img/productos/' . htmlspecialchars($producto['imagen']) ?>" alt="Imagen del producto" style="max-width: 200px; display: block; margin-bottom: 10px;">
             </div>
 
+            <!-- Subir nueva imagen -->
             <label for="imagen" class="form-label">Subir Nueva Imagen:</label>
             <input type="file" id="imagen" name="imagen" class="form-input">
 
+            <!-- Botones de acción -->
             <input type="submit" value="Actualizar" class="btn">
             <a href="<?= BASE_URL ?>Administrador/gestionarProductos" class="return-link">Cancelar</a>
         </form>
