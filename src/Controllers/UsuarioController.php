@@ -246,14 +246,27 @@ class UsuarioController
         ];
     }
     // Método para actualizar un usuario
+    // Método para actualizar un usuario
     public function actualizarUsuario()
     {
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $datos = $this->validarEdicionUsuario($_POST['datos']);
                 if ($datos !== null) {
+                    // Obtener el ID del administrador que ha iniciado sesión
+                    $adminId = $_SESSION['inicioSesion']->id;
+
+                    // Verificar si el usuario que se está editando es el administrador actual
+                    if ($datos['id'] == $adminId && $datos['rol'] === 'usuario') {
+                        $_SESSION['error'] = 'No puedes cambiarte tu propio rol a "usuario".';
+                        header('Location: ' . BASE_URL . 'Administrador/mostrarUsuarios');
+                        return;
+                    }
+
+                    // Si no es el mismo o no intenta cambiar su rol a "usuario", proceder con la actualización
                     $usuario = Usuario::fromArray($datos);
                     $usuarioActualizado = $this->usuarioServices->update($usuario);
+
                     if ($usuarioActualizado) {
                         $_SESSION['actualizacion'] = 'correcta';
                     } else {
@@ -273,6 +286,17 @@ class UsuarioController
     // Método para eliminar un usuario
     public function eliminarUsuario($id)
     {
+        // Obtener el ID del administrador que ha iniciado sesión
+        $adminId = $_SESSION['inicioSesion']->id;
+
+        // Verificar si el ID del usuario a eliminar es el mismo que el del administrador
+        if ($id == $adminId) {
+            $_SESSION['error'] = 'No puedes eliminarte a ti mismo.';
+            header('Location: ' . BASE_URL . 'Administrador/mostrarUsuarios');
+            return;
+        }
+
+        // Si no es el mismo, proceder con la eliminación
         $this->usuarioServices->delete($id);
         header('Location: ' . BASE_URL . 'Administrador/mostrarUsuarios');
     }

@@ -78,6 +78,7 @@
         padding: 10px;
         font-size: 14px;
         text-align: center;
+        margin-top: 10px;
     }
 
     /* Estilos para mensaje de acceso denegado */
@@ -94,6 +95,10 @@
             <h1 class="panel-title">Panel de administrador</h1>
             <h3 class="section-title">Gestión de usuarios</h3>
             <a class="btn" href="<?= BASE_URL ?>Usuario/registrarUsuarios">Registrar nuevo usuario</a>
+            <?php if (isset($_SESSION['error'])) : ?>
+                <div class="error-message"><?= $_SESSION['error']; ?></div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
             <table class="user-table">
                 <thead>
                     <tr>
