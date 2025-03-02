@@ -105,6 +105,13 @@ class Routes
             return (new PedidoController())->crear();
         });
 
+        Router::add('GET', 'Pedido/verPedido/?id=:id', function ($id) {
+            return (new PedidoController())->verPedido($id);
+        });
+
+        Router::add('GET', 'Pedido/eliminarPedido/?id=:id', function ($id) {
+            return (new PedidoController())->delete($id);
+        });
 
 
 
@@ -180,6 +187,38 @@ class Routes
         Router::add('POST', 'Administrador/editarProducto', function () {
             return (new ProductoController())->editarProducto();
         });
+
+        // Apartado de pedidos
+        Router::add('GET', 'Administrador/gestionarPedidos', function () {
+            return (new PedidoController())->verTodosLosPedidos();
+        });
+
+        Router::add('GET', 'Administrador/eliminarPedido/?id=:id', function ($id) {
+            return (new PedidoController())->delete($id);
+        });
+
+        Router::add('GET', 'Administrador/editarPedido/?id=:id', function ($id) {
+            return (new PedidoController())->editar($id);
+        });
+
+        Router::add('GET', 'Administrador/actualizar', function () {
+            return (new PedidoController())->actualizar();
+        });
+
+        Router::add('POST', 'Administrador/actualizar', function () {
+            return (new PedidoController())->actualizar();
+        });
+
+
+        Router::add('GET', 'Administrador/confirmarPedido/?id=:id', function ($id) {
+            return (new PedidoController())->confirmarPedido($id);
+        });
+
+        Router::add('GET', 'Administrador/cancelarPedido/?id=:id', function ($id) {
+            return (new PedidoController())->cancelarPedido($id);
+        });
+
+
 
         // Rutas Error
         Router::add('GET', '/errores/', function () {

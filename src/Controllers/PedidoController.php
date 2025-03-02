@@ -31,7 +31,7 @@ class PedidoController
     }
 
     // Método para ver el formulario de realizar pedido
-    public function realizarPedido() 
+    public function realizarPedido()
     {
         try {
             if (!isset($_SESSION['inicioSesion'])) {
@@ -54,6 +54,29 @@ class PedidoController
             } else {
                 $this->pages->render('Carrito/verCarrito', ['mensajesError' => $this->mensajesError]);
             }
+        }
+    }
+
+    // Método para ver un pedido en concreto
+    public function verPedido($id)
+    {
+        try {
+            if (!isset($_SESSION['inicioSesion'])) {
+                throw new Exception('Debes iniciar sesión para ver este pedido.');
+            }
+
+            $usuario = $_SESSION['inicioSesion'];
+            $pedido = $this->pedidoService->getById($id);
+
+            if ($usuario->id === $pedido['usuario_id'] || $usuario->rol === 'administrador') {
+                $productos = $this->pedidoService->getProductosPedido($id);
+                $this->pages->render('Pedido/verPedido', ['pedido' => $pedido, 'productos' => $productos]);
+            } else {
+                throw new Exception('No tienes permisos para ver este pedido.');
+            }
+        } catch (Exception $e) {
+            $this->mensajesError[] = $e->getMessage();
+            $this->pages->render('Pedido/misPedidos', ['mensajesError' => $this->mensajesError]);
         }
     }
 
@@ -172,16 +195,17 @@ class PedidoController
     }
 
     // Metodo para eliminar un pedido
-    public function delete($id) // eliminar($id)
+    public function delete($id)
     {
         $usuario = $_SESSION['inicioSesion'];
+        $pedido = $this->pedidoService->getById($id);
 
-
-        if ($usuario->rol === 'administrador') {
+        if ($usuario->id === $pedido['usuario_id'] || $usuario->rol === 'administrador') {
             $this->pedidoService->delete($id);
-            header('Location:' . BASE_URL . 'Administrador/gestionarPedidos');
+            header('Location:' . BASE_URL . 'Pedido/misPedidos');
+            exit();
         } else {
-            $this->mensajesError[] = 'No tienes permisos para eliminar pedidos.';
+            $this->mensajesError[] = 'No tienes permisos para eliminar este pedido.';
             $this->pages->render('Pedido/misPedidos', ['mensajesError' => $this->mensajesError]);
         }
     }
@@ -248,12 +272,25 @@ class PedidoController
     {
         $usuario = $_SESSION['inicioSesion'];
         if ($usuario->rol === 'administrador') {
-            $this->pedidoService->updateEstado($id);
+            $this->pedidoService->updateEstado($id, 'Confirmado');
             // Renderizar la vista de pedidos   
             $this->enviarEmail($id);
             // header('Location:' . BASE_URL . 'Administrador/gestionarPedidos');
         } else {
             $this->mensajesError[] = 'No tienes permisos para confirmar pedidos.';
+            $this->pages->render('Pedido/misPedidos', ['mensajesError' => $this->mensajesError]);
+        }
+    }
+
+    public function cancelarPedido($id)
+    {
+        $usuario = $_SESSION['inicioSesion'];
+        if ($usuario->rol === 'administrador') {
+            $this->pedidoService->updateEstado($id, 'Cancelado');
+            header('Location:' . BASE_URL . 'Administrador/gestionarPedidos');
+            exit();
+        } else {
+            $this->mensajesError[] = 'No tienes permisos para cancelar pedidos.';
             $this->pages->render('Pedido/misPedidos', ['mensajesError' => $this->mensajesError]);
         }
     }

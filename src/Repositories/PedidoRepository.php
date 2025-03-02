@@ -21,7 +21,7 @@ class PedidoRepository
 
     public function obtenerTodosPedidos()
     {
-        $consultaSQL = "SELECT * FROM pedidos ORDER BY id DESC";
+        $consultaSQL = "SELECT * FROM pedidos ORDER BY fecha ASC, hora ASC";
         $this->BaseDatos->consulta($consultaSQL);
         // $this->BaseDatos->close();
         return $this->BaseDatos->extraer_todos();
@@ -30,7 +30,12 @@ class PedidoRepository
     public function getById($id)
     {
         try {
-            $sel = $this->BaseDatos->prepara("SELECT * FROM pedidos WHERE id = :id");
+            // Modificamos la consulta para incluir el nombre del usuario
+            $sql = "SELECT p.*, u.id AS usuario_id, u.nombre AS nombre_usuario, u.email AS correo_usuario 
+            FROM pedidos p
+            JOIN usuarios u ON p.usuario_id = u.id
+            WHERE p.id = :id";
+            $sel = $this->BaseDatos->prepara($sql);
             $sel->bindParam(":id", $id, PDO::PARAM_INT);
             $sel->execute();
             $pedido = $sel->fetch(PDO::FETCH_ASSOC); // Devuelve un array con el registro
@@ -278,14 +283,21 @@ class PedidoRepository
         }
     }
 
-    public function updateEstado($id_pedido)
+    public function updateEstado($id_pedido, $estado)
     {
-        $estado = "confirmado";
         try {
+            // Preparamos la consulta SQL para actualizar el estado del pedido
             $upd = $this->BaseDatos->prepara("UPDATE pedidos SET estado = :estado WHERE id = :id");
             $upd->bindParam(":id", $id_pedido, PDO::PARAM_INT);
             $upd->bindParam(":estado", $estado, PDO::PARAM_STR);
             $upd->execute();
+
+            // Verificar si la actualización fue exitosa
+            if ($upd->rowCount() > 0) {
+                return true; // La actualización fue exitosa
+            } else {
+                return false; // No se actualizó ningún registro
+            }
         } catch (PDOException $error) {
             echo ("Error en la consulta: " . $error->getMessage());
             return false;

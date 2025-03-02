@@ -69,8 +69,8 @@ class PedidoServices
         return $this->pedidoRepository->create($usuario_id, $provincia, $localidad, $direccion, $coste, $estado, $fecha, $hora, $carrito);
     }
 
-    public function updateEstado($id_pedido)
+    public function updateEstado($id_pedido, $estado)
     {
-        return $this->pedidoRepository->updateEstado($id_pedido);
+        return $this->pedidoRepository->updateEstado($id_pedido, $estado);
     }
 }

@@ -27,7 +27,7 @@
     .orders-container th,
     .orders-container td {
         padding: 15px;
-        text-align: left;
+        text-align: center;
         border-bottom: 1px solid #555;
     }
 
@@ -105,6 +105,7 @@
                         <th>Fecha</th>
                         <th>Hora</th>
                         <th>Estado</th>
+                        <th colspan="2">Acciones</th>
                         <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol == 'administrador') : ?>
                             <th>Confirmar Pedido</th>
                         <?php endif; ?>
@@ -113,13 +114,21 @@
                 <tbody>
                     <?php foreach ($pedidos as $pedido) : ?>
                         <tr>
-                            <td><a href="<?= BASE_URL ?>Pedido/verPedido/?id=<?= $pedido['id'] ?>"><?= $pedido['id'] ?></a></td>
+                            <td><?= $pedido['id'] ?></td>
                             <td><?= $pedido['coste'] ?>€</td>
                             <td><?= $pedido['fecha'] ?></td>
                             <td><?= $pedido['hora'] ?></td>
                             <td><?= $pedido['estado'] ?></td>
+                            <td><a href="<?= BASE_URL ?>Pedido/verPedido/?id=<?= $pedido['id'] ?>">Ver Pedido</a></td>
+                            <td class="action-links">
+                                <a href="<?= BASE_URL ?>Pedido/eliminarPedido/?id=<?= $pedido['id']; ?>">Eliminar</a>
+                            </td>
                             <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol == 'administrador') : ?>
-                                <td><a href="<?= BASE_URL ?>Administrador/gestionarPedidos">Confirmar pedido</i></a></td>
+                                <?php if ($pedido['estado'] != 'Cancelado') : ?>
+                                    <td><a href="<?= BASE_URL ?>Administrador/confirmarPedido/?id=<?= $pedido['id'] ?>">Confirmar pedido</a></td>
+                                <?php else : ?>
+                                    <td>No se puede confirmar un pedido cancelado</td>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>
