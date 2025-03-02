@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del Producto</title>
     <style>
-
         .product-detail {
             max-width: 600px;
             margin: 20px auto;
@@ -16,6 +15,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
+
         .product-detail img {
             max-width: 100%;
             height: auto;
@@ -70,23 +70,27 @@
             background-color: orange;
             /* Cambia el color al pasar el mouse */
         }
+
+        .containerProducto{
+            min-height: 65vh;
+        }
     </style>
 </head>
 
 <body>
-
-    <div class="product-detail">
-        <img src="<?= BASE_URL ?>public/img/productos/<?= $producto['imagen'] ?>" alt="<?= ($producto["nombre"]) ?>">
-        <h2><?= ($producto["nombre"]) ?></h2>
-        <p>Descripcion: <?= ($producto["descripcion"]) ?></p>
-        <p>Stock: <?= ($producto["stock"]) ?></p>
-        <p class="price">Precio: $<?= number_format($producto["precio"], 2) ?></p>
-        <div class="back-link">
-            <a href="<?= BASE_URL ?>">Volver a la lista de productos</a>
-            <a href="<?= BASE_URL ?>Carrito/agregarProducto/?id=<?= $producto['id'] ?>">Agregar al carrito</a>
+    <div class="containerProducto">
+        <div class="product-detail">
+            <img src="<?= BASE_URL ?>public/img/productos/<?= $producto['imagen'] ?>" alt="<?= ($producto["nombre"]) ?>">
+            <h2><?= ($producto["nombre"]) ?></h2>
+            <p>Descripcion: <?= ($producto["descripcion"]) ?></p>
+            <p>Stock: <?= ($producto["stock"]) ?></p>
+            <p class="price">Precio: $<?= number_format($producto["precio"], 2) ?></p>
+            <div class="back-link">
+                <a href="<?= BASE_URL ?>">Volver a la lista de productos</a>
+                <a href="<?= BASE_URL ?>Carrito/agregarProducto/?id=<?= $producto['id'] ?>">Agregar al carrito</a>
+            </div>
         </div>
     </div>
-
 </body>
 
 </html>
