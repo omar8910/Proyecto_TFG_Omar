@@ -273,9 +273,7 @@ class PedidoController
         $usuario = $_SESSION['inicioSesion'];
         if ($usuario->rol === 'administrador') {
             $this->pedidoService->updateEstado($id, 'Confirmado');
-            // Renderizar la vista de pedidos   
-            $this->enviarEmail($id);
-            // header('Location:' . BASE_URL . 'Administrador/gestionarPedidos');
+            $this->enviarEmailConfirmacion($id);
         } else {
             $this->mensajesError[] = 'No tienes permisos para confirmar pedidos.';
             $this->pages->render('Pedido/misPedidos', ['mensajesError' => $this->mensajesError]);
@@ -287,70 +285,62 @@ class PedidoController
         $usuario = $_SESSION['inicioSesion'];
         if ($usuario->rol === 'administrador') {
             $this->pedidoService->updateEstado($id, 'Cancelado');
-            header('Location:' . BASE_URL . 'Administrador/gestionarPedidos');
-            exit();
+            $this->enviarEmailCancelacion($id);
         } else {
             $this->mensajesError[] = 'No tienes permisos para cancelar pedidos.';
             $this->pages->render('Pedido/misPedidos', ['mensajesError' => $this->mensajesError]);
         }
     }
 
-    public function enviarEmail($id)
+    public function enviarEmailConfirmacion($id)
     {
-        // Import PHPMailer classes into the global namespace
-        // require '../vendor/autoload.php';
+        $this->enviarEmail($id, 'confirmado', '!Su pedido ha sido confirmado!');
+    }
 
-        // Start output buffering
+    public function enviarEmailCancelacion($id)
+    {
+        $this->enviarEmail($id, 'cancelado', '!Su pedido ha sido cancelado!');
+    }
+
+    public function enviarEmail($id, $tipo, $asunto)
+    {
         ob_start();
-
-        // Create a new PHPMailer instance
         $mail = new PHPMailer(true);
 
         try {
-            // Tell PHPMailer to use SMTP
             $mail->isSMTP();
-            $mail->SMTPDebug = 0; // Change SMTP::DEBUG_SERVER to 0 to disable debugging
+            $mail->SMTPDebug = 0;
             $mail->Host = 'smtp.gmail.com';
             $mail->Port = 465;
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->SMTPAuth = true;
             $mail->Username = 'omarqneiby@gmail.com';
             $mail->Password = 'yufqogxbcxeqyier';
-
-            // Set who the message is to be sent from
             $mail->setFrom('omarqneiby@gmail.com', 'PC Componentes OMAR');
-            // Set who the message is to be sent to
             $mail->addAddress($_SESSION['inicioSesion']->email, $_SESSION['inicioSesion']->nombre);
-            $mail->Subject = '!Su pedido ha sido confirmado!';
+            $mail->Subject = $asunto;
 
-            // Define the variables
             $nombre = $_SESSION['inicioSesion']->nombre;
             $id_pedido = $id;
             $productos = $this->pedidoService->getProductosPedido($id);
             $fecha = date('Y-m-d');
             $hora = date('H:i:s');
 
-            // Include the email template and store the output in a variable
-            require_once __DIR__ . '/../Views/Pedido/email.php';
+            require_once __DIR__ . '/../Views/Pedido/email_' . $tipo . '.php';
             $html = ob_get_contents();
             ob_end_clean();
 
-            // Use the output as the HTML body of the email
             $mail->msgHTML($html, __DIR__);
-            $mail->AltBody = 'This is a plain-text message body';
+            $mail->AltBody = 'Este es un mensaje en texto plano';
 
-            // Attach an image file
-            // $mail->addAttachment(__DIR__ . '/../images/phpmailer_mini.png');
-
-            // Send the message
             if ($mail->send()) {
                 header('Location:' . BASE_URL . 'Administrador/gestionarPedidos');
-                exit; // Ensure the script stops after the header
+                exit;
             } else {
-                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                echo 'Error enviando el mensaje: ', $mail->ErrorInfo;
             }
         } catch (Exception $e) {
-            echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+            echo 'Error enviando el mensaje: ', $mail->ErrorInfo;
         }
     }
 }
