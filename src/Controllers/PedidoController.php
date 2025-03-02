@@ -30,8 +30,8 @@ class PedidoController
         $this->productoServices = new ProductoServices(new ProductoRepository());
     }
 
-    // Método para ver el pedido
-    public function verPedido() // mostrarPedido()
+    // Método para ver el formulario de realizar pedido
+    public function realizarPedido() 
     {
         try {
             if (!isset($_SESSION['inicioSesion'])) {
@@ -43,7 +43,7 @@ class PedidoController
             }
 
             if (count($_SESSION['carrito']) >= 1) {
-                $this->pages->render('Pedido/CrearPedido');
+                $this->pages->render('Pedido/crearPedido');
             } else {
                 throw new Exception('No puedes realizar un pedido sin productos en el carrito.');
             }
@@ -167,7 +167,7 @@ class PedidoController
             }
         } catch (Exception $e) {
             $this->mensajesError[] = $e->getMessage();
-            $this->pages->render('Pedido/CrearPedido', ['mensajesError' => $this->mensajesError]);
+            $this->pages->render('Pedido/crearPedido', ['mensajesError' => $this->mensajesError]);
         }
     }
 

@@ -93,7 +93,21 @@ class Routes
             return (new PedidoController())->misPedidos();
         });
 
-        
+        Router::add('GET', 'Pedido/realizarPedido', function () {
+            return (new PedidoController())->realizarPedido();
+        });
+
+        Router::add('GET', 'Pedido/crearPedido', function () {
+            return (new PedidoController())->crear();
+        });
+
+        Router::add('POST', 'Pedido/crearPedido', function () {
+            return (new PedidoController())->crear();
+        });
+
+
+
+
 
         // RUTAS DE ADMINISTRADOR
 
@@ -140,7 +154,7 @@ class Routes
         Router::add('POST', 'Administrador/actualizarCategoria', function () {
             return (new CategoriaController())->actualizarCategoria();
         });
-        
+
         // Apartado de productos
 
         Router::add('GET', 'Administrador/gestionarProductos', function () {

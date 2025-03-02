@@ -204,7 +204,7 @@
                     <a class="vaciarCarrito" href="<?= BASE_URL ?>Carrito/vaciarCarrito">
                         <button>Vaciar Carrito</button>
                     </a>
-                    <a href="<?= BASE_URL ?>Pedido/verPedido">
+                    <a href="<?= BASE_URL ?>Pedido/realizarPedido">
                         <button>Realizar Pedido</button>
                     </a>
                 </div>
