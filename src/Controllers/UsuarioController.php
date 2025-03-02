@@ -36,15 +36,16 @@ class UsuarioController
     // Validación y saneamiento de formularios
     private function validarFormulario($datos)
     {
+        // Verificar si la clave 'rol' está definida en $datos
+        $rol = isset($datos['rol']) ? filter_var($datos['rol'], FILTER_SANITIZE_STRING) : 'usuario';
+
         // Saneamiento de datos
         $nombre = filter_var($datos['nombre'], FILTER_SANITIZE_STRING);
         $apellidos = filter_var($datos['apellidos'], FILTER_SANITIZE_STRING);
         $email = filter_var($datos['email'], FILTER_VALIDATE_EMAIL);
         $password = filter_var($datos['password'], FILTER_SANITIZE_STRING);
-        $rol = filter_var($datos['rol'], FILTER_SANITIZE_STRING);
 
         // Validación con expresiones regulares (patrones)
-
         $patronNombre = "/^[a-zA-ZáéíóúÁÉÍÓÚ '-]*$/";  // Solo letras y espacios y apóstrofes
         $patronApellido = "/^[a-zA-ZáéíóúÁÉÍÓÚ '-]*$/";  // Solo letras, espacios, apóstrofes y guiones
         $patronCorreo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/"; // Formato de correo electrónico
@@ -95,7 +96,16 @@ class UsuarioController
                     if ($usuarioCreado) {
                         // die(var_dump($usuarioCreado));
                         $_SESSION['registro'] = 'correcto';
-                        header('Location: ' . BASE_URL . 'Usuario/iniciarSesion');
+
+                        // Verificar si el usuario actual es un administrador
+                        if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol === 'administrador') {
+                            // Redirigir al panel de administración de usuarios
+                            header('Location: ' . BASE_URL . 'Administrador/mostrarUsuarios');
+                        } else {
+                            // Redirigir a la página de inicio de sesión (comportamiento actual)
+                            header('Location: ' . BASE_URL . 'Usuario/registrarUsuarios');
+                        }
+                        exit();
                     } else {
                         $_SESSION['registro'] = 'incorrecto';
                         throw new Exception('Error al registrar el usuario');
