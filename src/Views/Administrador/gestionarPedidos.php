@@ -4,23 +4,18 @@
         margin: 20px auto;
         padding: 20px;
         background-color: #333;
-        /* Cambiado a fondo oscuro */
         color: white;
-        /* Cambiado a texto blanco */
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        /* Actualizado para que coincida con el estilo */
     }
 
     .admin-section h1 {
         color: #ff9900;
-        /* Cambiado a color naranja */
         text-align: center;
     }
 
     .error-message {
         color: #ff4c4c;
-        /* Cambiado a color rojo */
         font-weight: bold;
     }
 
@@ -33,28 +28,22 @@
     th,
     td {
         padding: 15px;
-        /* Cambiado a padding más grande */
         text-align: left;
         border-bottom: 1px solid #555;
-        /* Cambiado a color de borde oscuro */
     }
 
     th {
         background-color: #444;
-        /* Cambiado a fondo oscuro */
         color: #ff9900;
-        /* Cambiado a color naranja */
         text-align: center;
     }
 
     tr:nth-child(even) {
         background-color: #444;
-        /* Cambiado a fondo oscuro */
     }
 
     .alert_red {
         color: #ff4c4c;
-        /* Cambiado a color rojo */
         font-weight: bold;
         text-align: center;
         display: block;
@@ -64,14 +53,12 @@
     .action-links a {
         margin-right: 10px;
         color: #ff9900;
-        /* Cambiado a color naranja */
         text-decoration: none;
         transition: color 0.3s ease;
     }
 
     .action-links a:hover {
         color: #ffd700;
-        /* Cambiado a color dorado */
     }
 
     input[type="text"],
@@ -85,7 +72,6 @@
     input[type="submit"] {
         padding: 8px 16px;
         background-color: #ff9900;
-        /* Cambiado a color naranja */
         color: white;
         border: none;
         cursor: pointer;
@@ -93,13 +79,11 @@
 
     input[type="submit"]:hover {
         background-color: #ffd700;
-        /* Cambiado a color dorado */
     }
 
     a {
         text-decoration: none;
         color: #ff9900;
-        /* Cambiado a color naranja */
     }
 
     td {
@@ -107,7 +91,8 @@
     }
 
     .adminContainer {
-        height: 65vh;
+        min-height: 65vh;
+        padding: 20px;
     }
 </style>
 
@@ -174,7 +159,6 @@
                 <strong class="alert_red">No tienes pedidos</strong>
             <?php endif; ?>
         </section>
-
     </div>
 
 <?php else : ?>

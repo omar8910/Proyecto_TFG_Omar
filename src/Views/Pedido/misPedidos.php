@@ -125,7 +125,7 @@
                             </td>
                             <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol == 'administrador') : ?>
                                 <?php if ($pedido['estado'] != 'Cancelado') : ?>
-                                    <td><a href="<?= BASE_URL ?>Administrador/confirmarPedido/?id=<?= $pedido['id'] ?>">Confirmar pedido</a></td>
+                                    <td><a href="<?= BASE_URL ?>Administrador/gestionarPedidos">Confirmar pedido</a></td>
                                 <?php else : ?>
                                     <td>No se puede confirmar un pedido cancelado</td>
                                 <?php endif; ?>
