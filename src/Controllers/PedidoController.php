@@ -315,7 +315,8 @@ class PedidoController
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->SMTPAuth = true;
             $mail->Username = 'omarqneiby@gmail.com';
-            $mail->Password = 'yufqogxbcxeqyier';
+            $mail->Password = 'mduiwossoeyiumyo';
+            
             $mail->setFrom('omarqneiby@gmail.com', 'PC Componentes OMAR');
             $mail->addAddress($_SESSION['inicioSesion']->email, $_SESSION['inicioSesion']->nombre);
             $mail->Subject = $asunto;
