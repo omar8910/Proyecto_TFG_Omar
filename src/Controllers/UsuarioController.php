@@ -156,8 +156,20 @@ class UsuarioController
                     $usuario = Usuario::fromArray($datos);
                     $verificarUsuario = $this->usuarioServices->iniciarSesion($usuario);
                     if ($verificarUsuario) {
-                        $_SESSION['inicioSesion'] = $verificarUsuario; // Guardamos el usuario en la sesión para tener acceso a sus datos
-                        // die(var_dump($_SESSION['inicioSesion']->email));
+                        $_SESSION['inicioSesion'] = $verificarUsuario;
+                        $_SESSION['usuario'] = $verificarUsuario;
+
+                        // Cargar el carrito desde la base de datos
+                        $carritoServices = new \Services\CarritoServices(new \Repositories\CarritoRepository());
+                        $carritoBD = $carritoServices->obtenerCarrito($verificarUsuario->id);
+                        $_SESSION['carrito'] = [];
+                        foreach ($carritoBD as $item) {
+                            $producto = (new \Services\ProductoServices(new \Repositories\ProductoRepository()))->getById($item['producto_id']);
+                            if ($producto) {
+                                $_SESSION['carrito'][$item['producto_id']] = $producto;
+                                $_SESSION['carrito'][$item['producto_id']]['cantidad'] = $item['cantidad'];
+                            }
+                        }
 
                         // Si el usuario seleccionó "Recordar usuario", guardamos su correo en una cookie con duración de 7 días
                         if (isset($_POST['remember'])) {
@@ -169,7 +181,7 @@ class UsuarioController
                             // Valida para un minuto para probar
                             setcookie('usuario', $_SESSION['inicioSesion']->email, time() + (1 * 60), "/"); // Expira en 1 minuto
                         } else {
-                            $_SESSION['recordarUsuario'] = false; // No recordar
+                            $_SESSION['recordarUsuario'] = false;
                         }
 
                         header('Location: ' . BASE_URL);
@@ -304,7 +316,13 @@ class UsuarioController
 
     public function cerrarSesion()
     {
+        // Guardar el carrito en la base de datos antes de eliminar la sesión
+        if (isset($_SESSION['usuario']) && isset($_SESSION['carrito'])) {
+            $carritoServices = new \Services\CarritoServices(new \Repositories\CarritoRepository());
+            $carritoServices->guardarCarrito($_SESSION['usuario']->id, $_SESSION['carrito']);
+        }
         // Eliminar la sesión de inicio de sesión
+        Utils::eliminarSesion('usuario');
         Utils::eliminarSesion('inicioSesion');
         Utils::eliminarSesion('recordarUsuario');
 

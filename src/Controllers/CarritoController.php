@@ -5,16 +5,21 @@ namespace Controllers;
 use Lib\Pages;
 use Services\ProductoServices;
 use Repositories\ProductoRepository;
+use Services\CarritoServices;
+use Repositories\CarritoRepository;
 
 class CarritoController
 {
     private ProductoServices $productoServices;
+    private CarritoServices $carritoServices;
+    private CarritoRepository $carritoRepository;
     private Pages $pages;
 
 
     public function __construct()
     {
         $this->productoServices = new ProductoServices(new ProductoRepository());
+        $this->carritoServices = new CarritoServices(new CarritoRepository());
         $this->pages = new Pages();
     }
 
@@ -24,8 +29,17 @@ class CarritoController
         $id_producto = $_GET['id'];
         $producto = $this->productoServices->getById($id_producto);
         if ($producto) {
-            $_SESSION['carrito'][$id_producto] = $producto;
-            $_SESSION['carrito'][$id_producto]['cantidad'] = 1;
+            if (!isset($_SESSION['carrito'][$id_producto])) {
+                $_SESSION['carrito'][$id_producto] = $producto;
+                $_SESSION['carrito'][$id_producto]['cantidad'] = 1;
+            } else {
+                $_SESSION['carrito'][$id_producto]['cantidad']++;
+            }
+            // Guardar carrito completo en BD si usuario logueado
+            if (isset($_SESSION['usuario'])) {
+                $usuarioId = $_SESSION['usuario']->id;
+                $this->carritoServices->guardarCarrito($usuarioId, $_SESSION['carrito']);
+            }
         }
         header('Location:' . BASE_URL . 'Carrito/verCarrito');
     }
@@ -36,6 +50,11 @@ class CarritoController
         $id_producto = $id;
         if (isset($_SESSION['carrito'][$id_producto])) {
             unset($_SESSION['carrito'][$id_producto]);
+            // Guardar carrito completo en BD si usuario logueado
+            if (isset($_SESSION['usuario'])) {
+                $usuarioId = $_SESSION['usuario']->id;
+                $this->carritoServices->guardarCarrito($usuarioId, $_SESSION['carrito']);
+            }
         }
         header('Location:' . BASE_URL . 'Carrito/verCarrito');
     }
@@ -56,10 +75,13 @@ class CarritoController
     public function vaciarCarrito()
     {
         unset($_SESSION['carrito']);
+        if (isset($_SESSION['usuario'])) {
+            $usuarioId = $_SESSION['usuario']->id;
+            $this->carritoServices->guardarCarrito($usuarioId, []);
+        }
         header('Location:' . BASE_URL . 'Carrito/verCarrito');
     }
 
-    // Sumar la cantidad de productos
     // Sumar la cantidad de productos
     public function sumarProductos($id)
     {
@@ -77,10 +99,13 @@ class CarritoController
                 $_SESSION['error_carrito'] = "No puedes agregar más de " . $stockDisponible . " unidades de este producto.";
             }
         }
-
+        // Guardar en BD si usuario logueado
+        if (isset($_SESSION['usuario'])) {
+            $usuarioId = $_SESSION['usuario']->id;
+            $this->carritoServices->guardarCarrito($usuarioId, $_SESSION['carrito']);
+        }
         header('Location:' . BASE_URL . 'Carrito/verCarrito');
     }
-
 
     // Restar la cantidad de productos
     public function restarProductos($id)
@@ -91,6 +116,11 @@ class CarritoController
             if ($_SESSION['carrito'][$id_producto]['cantidad'] == 0) {
                 unset($_SESSION['carrito'][$id_producto]);
             }
+        }
+        // Guardar en BD si usuario logueado
+        if (isset($_SESSION['usuario'])) {
+            $usuarioId = $_SESSION['usuario']->id;
+            $this->carritoServices->guardarCarrito($usuarioId, $_SESSION['carrito']);
         }
         header('Location:' . BASE_URL . 'Carrito/verCarrito');
     }
@@ -116,5 +146,21 @@ class CarritoController
             }
         }
         return $cantidadDinero;
+    }
+
+    // Método para cargar el carrito desde la base de datos
+    public function cargarCarritoDesdeBD()
+    {
+        if (isset($_SESSION['usuario'])) {
+            $usuarioId = $_SESSION['usuario']->id;
+            $carritoBD = $this->carritoServices->obtenerCarrito($usuarioId);
+            foreach ($carritoBD as $item) {
+                $producto = $this->productoServices->getById($item['producto_id']);
+                if ($producto) {
+                    $_SESSION['carrito'][$item['producto_id']] = $producto;
+                    $_SESSION['carrito'][$item['producto_id']]['cantidad'] = $item['cantidad'];
+                }
+            }
+        }
     }
 }
