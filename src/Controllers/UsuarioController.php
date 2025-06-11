@@ -212,7 +212,7 @@ class UsuarioController
         $apellidos = filter_var($datos['apellidos'], FILTER_SANITIZE_STRING);
         $email = filter_var($datos['email'], FILTER_VALIDATE_EMAIL);
         $rol = filter_var($datos['rol'], FILTER_SANITIZE_STRING);
-        $password = filter_var($datos['password'], FILTER_SANITIZE_STRING);
+        // $password = filter_var($datos['password'], FILTER_SANITIZE_STRING); Comentado temporalmente para ver donde esta el error de la edicion del ROL
 
         // Validación con expresiones regulares (patrones)
         $patronNombre = "/^[a-zA-ZáéíóúÁÉÍÓÚ '-]*$/";  // Solo letras y espacios y apóstrofes
@@ -246,7 +246,6 @@ class UsuarioController
         ];
     }
     // Método para actualizar un usuario
-    // Método para actualizar un usuario
     public function actualizarUsuario()
     {
         try {
@@ -265,6 +264,7 @@ class UsuarioController
 
                     // Si no es el mismo o no intenta cambiar su rol a "usuario", proceder con la actualización
                     $usuario = Usuario::fromArray($datos);
+                    // die(var_dump($usuario));
                     $usuarioActualizado = $this->usuarioServices->update($usuario);
 
                     if ($usuarioActualizado) {

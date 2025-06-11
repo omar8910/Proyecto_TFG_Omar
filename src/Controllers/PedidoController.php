@@ -199,6 +199,17 @@ class PedidoController
     {
         $usuario = $_SESSION['inicioSesion'];
         $pedido = $this->pedidoService->getById($id);
+        $pedidosVisibles = $this->pedidoService->getByUsuario($usuario->id);
+        
+        // Si el usuario no es administrador y el pedido está confirmado o cancelado, no puede eliminarlo
+        if (
+            $usuario->rol !== 'administrador' &&
+            ($pedido['estado'] === 'Confirmado' || $pedido['estado'] === 'Cancelado')
+        ) {
+            $this->mensajesError[] = 'No puedes eliminar un pedido confirmado o cancelado.';
+            $this->pages->render('Pedido/misPedidos', ['mensajesError' => $this->mensajesError, 'pedidos' => $pedidosVisibles]);
+            return;
+        }
 
         if ($usuario->id === $pedido['usuario_id'] || $usuario->rol === 'administrador') {
             $this->pedidoService->delete($id);
@@ -315,12 +326,16 @@ class PedidoController
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->SMTPAuth = true;
             $mail->Username = 'omarqneiby@gmail.com';
-            $mail->Password = 'yufqogxbcxeqyier';
+            $mail->Password = 'ujkzamjivetodwid';
             $mail->setFrom('omarqneiby@gmail.com', 'PC Componentes OMAR');
-            $mail->addAddress($_SESSION['inicioSesion']->email, $_SESSION['inicioSesion']->nombre);
+
+            // Obtener el usuario que hizo el pedido
+            $usuarioPedido = $this->pedidoService->getById($id);
+
+            $mail->addAddress($usuarioPedido['correo_usuario'], $usuarioPedido['nombre_usuario']);
             $mail->Subject = $asunto;
 
-            $nombre = $_SESSION['inicioSesion']->nombre;
+            $nombre = $usuarioPedido['nombre_usuario'];
             $id_pedido = $id;
             $productos = $this->pedidoService->getProductosPedido($id);
             $fecha = date('Y-m-d');

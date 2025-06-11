@@ -96,6 +96,13 @@
 <div class="orders-containerFormat">
     <section class="orders-container">
         <h1>Mis Pedidos</h1>
+        <?php if (isset($mensajesError) && !empty($mensajesError)) : ?>
+            <div class="alert_red">
+                <?php foreach ($mensajesError as $error) : ?>
+                    <p><?= $error ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
         <?php if (isset($_SESSION['inicioSesion']) && !empty($pedidos)) : ?>
             <table>
                 <thead>

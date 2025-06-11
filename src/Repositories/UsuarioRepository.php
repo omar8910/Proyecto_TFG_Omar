@@ -169,17 +169,20 @@ class UsuarioRepository
         $nombre = $usuario->getNombre();
         $apellidos = $usuario->getApellidos();
         $email = $usuario->getEmail();
+        $rol = $usuario->getRol();
         // No se actualiza la contraseña
 
         try {
             // Preparamos la consulta
-            $upd = $this->BaseDatos->prepara("UPDATE usuarios SET nombre = :nombre, apellidos = :apellidos, email = :email WHERE id = :id");
+            $upd = $this->BaseDatos->prepara("UPDATE usuarios SET nombre = :nombre, apellidos = :apellidos, email = :email, rol = :rol WHERE id = :id");
 
             // Vinculamos las variables
             $upd->bindParam(":id", $id, PDO::PARAM_INT);
             $upd->bindParam(":nombre", $nombre, PDO::PARAM_STR);
             $upd->bindParam(":apellidos", $apellidos, PDO::PARAM_STR);
             $upd->bindParam(":email", $email, PDO::PARAM_STR);
+            $upd->bindParam(":rol", $rol, PDO::PARAM_STR);
+
 
             // Ejecutamos la consulta
             $upd->execute();
