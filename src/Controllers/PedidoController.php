@@ -326,7 +326,8 @@ class PedidoController
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->SMTPAuth = true;
             $mail->Username = 'omarqneiby@gmail.com';
-            $mail->Password = 'ujkzamjivetodwid';
+            $mail->Password = 'mduiwossoeyiumyo';
+            
             $mail->setFrom('omarqneiby@gmail.com', 'PC Componentes OMAR');
 
             // Obtener el usuario que hizo el pedido
