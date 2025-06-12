@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libcurl4-openssl-dev \
     pkg-config \
-    libmysqlclient-dev
+    libmariadb-dev
 
 # Instalar extensiones de PHP necesarias
 RUN docker-php-ext-install pdo pdo_mysql
