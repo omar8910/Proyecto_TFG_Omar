@@ -10,6 +10,7 @@ use Controllers\ProductoController;
 use Controllers\UsuarioController;
 use Controllers\CarritoController;
 use Controllers\PedidoController;
+use Controllers\StripeController;
 
 use Lib\Router;
 
@@ -216,6 +217,19 @@ class Routes
 
         Router::add('GET', 'Administrador/cancelarPedido/?id=:id', function ($id) {
             return (new PedidoController())->cancelarPedido($id);
+        });
+
+
+
+        // RUTAS STRIPE (PAGO)
+        Router::add('POST', 'Stripe/createSession', function () {
+            return (new StripeController())->createSession();
+        });
+        Router::add('GET', 'Stripe/success', function () {
+            return (new StripeController())->success();
+        });
+        Router::add('GET', 'Stripe/cancel', function () {
+            return (new StripeController())->cancel();
         });
 
 

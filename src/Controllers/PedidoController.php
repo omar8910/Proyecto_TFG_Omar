@@ -163,9 +163,6 @@ class PedidoController
                 $provincia = isset($_POST['provincia']) ? $_POST['provincia'] : false;
                 $localidad = isset($_POST['localidad']) ? $_POST['localidad'] : false;
                 $direccion = isset($_POST['direccion']) ? $_POST['direccion'] : false;
-                $estado = "Pendiente a confirmar";
-                $fecha = date('Y-m-d');
-                $hora = date('H:i:s');
 
                 $errores = $this->ValidarFormularioPedido($provincia, $localidad, $direccion);
 
@@ -175,16 +172,37 @@ class PedidoController
                     }
                     throw new Exception('Errores de validación en el formulario.');
                 } else {
-                    $usuario = $_SESSION['inicioSesion'];
+                    // Guardar datos de envío en sesión para usarlos tras el pago
+                    $_SESSION['datos_envio'] = [
+                        'provincia' => $provincia,
+                        'localidad' => $localidad,
+                        'direccion' => $direccion
+                    ];
+                    // Ir directamente a la plataforma de pago Stripe (crear sesión y redirigir)
+                    require_once __DIR__ . '/../../vendor/autoload.php';
+                    $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+                    $dotenv->load();
+                    \Stripe\Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
                     $carrito = $_SESSION['carrito'];
-                    $coste = $this->pedidoService->calcularTotal($carrito);
-                    $resultado = $this->pedidoService->create($usuario->id, $provincia, $localidad, $direccion, $coste, $estado, $fecha, $hora, $carrito);
-                    if ($resultado != true) {
-                        $this->mensajesError = $resultado;
-                        $this->pages->render('Pedido/CrearPedido', ['mensajesError' => [$this->mensajesError[0]]]);
-                    }
-                    unset($_SESSION['carrito']);
-                    header('Location:' . BASE_URL . 'Pedido/misPedidos');
+                    $pedidoService = new \Services\PedidoServices(new \Repositories\PedidoRepository());
+                    $coste = $pedidoService->calcularTotal($carrito);
+                    $session = \Stripe\Checkout\Session::create([
+                        'payment_method_types' => ['card'],
+                        'line_items' => [[
+                            'price_data' => [
+                                'currency' => 'eur',
+                                'product_data' => [
+                                    'name' => 'Pedido en Tienda Omar',
+                                ],
+                                'unit_amount' => intval($coste * 100),
+                            ],
+                            'quantity' => 1,
+                        ]],
+                        'mode' => 'payment',
+                        'success_url' => BASE_URL . 'Stripe/success',
+                        'cancel_url' => BASE_URL . 'Stripe/cancel',
+                    ]);
+                    header('Location: ' . $session->url);
                     exit();
                 }
             }
@@ -326,7 +344,7 @@ class PedidoController
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->SMTPAuth = true;
             $mail->Username = 'omarqneiby@gmail.com';
-            $mail->Password = 'mduiwossoeyiumyo';
+            $mail->Password = 'iolxbtvmjsgwpjcn';
             
             $mail->setFrom('omarqneiby@gmail.com', 'PC Componentes OMAR');
 
