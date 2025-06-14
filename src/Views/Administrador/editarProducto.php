@@ -75,11 +75,29 @@
     .return-link:hover {
         background-color: #666;
     }
+
+    .product-error-message {
+        color: #ff4d4d;
+        background-color: #331515;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        width: 50%;
+        text-align: center;
+    }
 </style>
 
 <section id="editar-producto-section">
     <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol === 'administrador') : ?>
         <h1 class="section-title">Editar Producto</h1>
+
+        <!-- Mensajes de error de validación -->
+        <?php if (isset($errores) && is_array($errores)) : ?>
+            <?php foreach ($errores as $error) : ?>
+                <p class="product-error-message"><?= htmlspecialchars($error) ?></p>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
         <form action="<?= BASE_URL ?>Administrador/editarProducto" method="POST" enctype="multipart/form-data" id="editar-producto-form">
             <input type="hidden" name="id" value="<?= $producto['id'] ?>">
 
@@ -93,7 +111,7 @@
 
             <!-- Precio del producto -->
             <label for="precio" class="form-label">Precio</label>
-            <input type="text" name="precio" value="<?= htmlspecialchars($producto['precio']) ?>" id="precio-input" class="form-input">
+            <input type="number" name="precio" value="<?= htmlspecialchars($producto['precio']) ?>" id="precio-input" class="form-input">
 
             <!-- Stock del producto -->
             <label for="stock" class="form-label">Stock</label>

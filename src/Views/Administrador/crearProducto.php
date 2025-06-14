@@ -13,8 +13,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 20px;
-        width: 96%;
+        background-color: #222;
     }
 
     /* Sección del formulario */
@@ -104,6 +103,80 @@
         text-align: center;
     }
 
+    /* Estilos heredados de editarProducto */
+    #crear-producto-section {
+        background-color: #222;
+        color: #ddd;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    #crear-producto-section h1 {
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    #crear-producto-form {
+        background-color: #333;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #crear-producto-form .form-label {
+        color: white;
+        margin-bottom: 5px;
+    }
+
+    #crear-producto-form .form-input,
+    #crear-producto-form .form-textarea,
+    #crear-producto-form .form-select {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #444;
+        color: white;
+    }
+
+    #crear-producto-form .btn {
+        background-color: #555;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #crear-producto-form .btn:hover {
+        background-color: #666;
+    }
+
+    .product-error-message {
+        color: #ff4d4d;
+        background-color: #331515;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: center;
+        font-size: medium;
+    }
+
+    .access-denied {
+        color: white;
+        font-size: 24px;
+        text-align: center;
+    }
+
     /* Contenedor de imagen */
     .imagen-container {
         display: flex;
@@ -131,7 +204,7 @@
 use Utils\Utils; ?>
 
 <div class="product-section-container">
-    <section class="product-section">
+    <section id="crear-producto-section">
         <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol === 'administrador') : ?>
             <h1 class="product-section-title">Crear producto</h1>
 
@@ -149,45 +222,37 @@ use Utils\Utils; ?>
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <form class="product-form" action="<?= BASE_URL; ?>Administrador/crearProducto" method="POST" enctype="multipart/form-data">
-                <div>
-                    <label for="nombre" class="product-label">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" class="product-input" required>
-                </div>
+            <?php if (isset($errores) && is_array($errores)) : ?>
+                <?php foreach ($errores as $error) : ?>
+                    <p class="product-error-message"><?= htmlspecialchars($error) ?></p>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
-                <div>
-                    <label for="descripcion" class="product-label">Descripción</label>
-                    <textarea name="descripcion" id="descripcion" class="product-textarea" required></textarea>
-                </div>
+            <form action="<?= BASE_URL; ?>Administrador/crearProducto" method="POST" enctype="multipart/form-data" id="crear-producto-form">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" name="nombre" id="nombre" class="form-input" required value="<?= isset($old['nombre']) ? htmlspecialchars($old['nombre']) : '' ?>">
 
-                <div>
-                    <label for="precio" class="product-label">Precio</label>
-                    <input type="number" step="0.01" min="0" name="precio" id="precio" class="product-input" required>
-                </div>
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea name="descripcion" id="descripcion" class="form-textarea" required><?= isset($old['descripcion']) ? htmlspecialchars($old['descripcion']) : '' ?></textarea>
 
-                <div>
-                    <label for="stock" class="product-label">Stock</label>
-                    <input type="number" name="stock" id="stock" class="product-input" required>
-                </div>
+                <label for="precio" class="form-label">Precio</label>
+                <input type="number" step="0.01" min="0" name="precio" id="precio" class="form-input" required value="<?= isset($old['precio']) ? htmlspecialchars($old['precio']) : '' ?>">
 
-                <div>
-                    <label for="imagen" class="product-label">Selecciona una imagen:</label>
-                    <div class="imagen-container">
-                        <input type="file" name="imagen" id="imagen" class="product-inputImagen" required>
-                    </div>
-                </div>
+                <label for="stock" class="form-label">Stock</label>
+                <input type="number" name="stock" id="stock" class="form-input" required value="<?= isset($old['stock']) ? htmlspecialchars($old['stock']) : '' ?>">
 
-                <div>
-                    <label for="categoria" class="product-label">Categoría</label>
-                    <select name="categoria_id" id="categoria" class="product-select" required>
-                        <option value="">Selecciona una categoría</option>
-                        <?php foreach ($categorias as $categoria) : ?>
-                            <option value="<?= $categoria['id']; ?>"><?= $categoria["nombre"]; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+                <label for="imagen" class="form-label">Selecciona una imagen:</label>
+                <input type="file" name="imagen" id="imagen" class="form-input" required>
 
-                <input type="submit" value="Crear" class="product-submit">
+                <label for="categoria" class="form-label">Categoría</label>
+                <select name="categoria_id" id="categoria" class="form-select" required>
+                    <option value="">Selecciona una categoría</option>
+                    <?php foreach ($categorias as $categoria) : ?>
+                        <option value="<?= $categoria['id']; ?>" <?= (isset($old['categoria_id']) && $old['categoria_id'] == $categoria['id']) ? 'selected' : '' ?>><?= $categoria["nombre"]; ?></option>
+                    <?php endforeach; ?>
+                </select>
+
+                <input type="submit" value="Crear" class="btn">
             </form>
         <?php else : ?>
             <h1 class="access-denied">No tienes permisos para acceder a esta página</h1>
