@@ -107,7 +107,13 @@ use Utils\Utils;
     }
 
     .error-message {
-        color: #ff0000;
+        color: #ff4d4d;
+        background-color: #331515;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        width: 50%;
+        text-align: center;
     }
 </style>
 
@@ -129,23 +135,22 @@ use Utils\Utils;
 
     <form action="<?= BASE_URL ?>Usuario/registrarUsuarios/" method="POST" class="register-form">
         <label for="nombre">Nombre:</label>
-        <input type="text" name="datos[nombre]" id="nombre" required>
+        <input type="text" name="datos[nombre]" id="nombre" required value="<?= isset($_POST['datos']['nombre']) ? htmlspecialchars($_POST['datos']['nombre']) : '' ?>">
         <br>
         <label for="apellidos">Apellidos:</label>
-        <input type="text" name="datos[apellidos]" id="apellidos" required>
+        <input type="text" name="datos[apellidos]" id="apellidos" required value="<?= isset($_POST['datos']['apellidos']) ? htmlspecialchars($_POST['datos']['apellidos']) : '' ?>">
         <br>
         <label for="email">Correo electrónico:</label>
-        <input type="email" name="datos[email]" id="email" required>
+        <input type="email" name="datos[email]" id="email" required value="<?= isset($_POST['datos']['email']) ? htmlspecialchars($_POST['datos']['email']) : '' ?>">
         <br>
         <label for="password">Contraseña:</label>
         <input type="password" name="datos[password]" id="password" required>
         <br>
-        <!-- Por defecto, en el repositorio de UsuarioRepository, al registrar a un usuario le damos el rol "usuario" -->
         <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion']->rol === 'administrador') : ?>
             <label for="rol">Rol:</label>
             <select name="datos[rol]" id="rol">
-                <option value="usuario" <?= isset($usuario) && $usuario['rol'] === 'usuario' ? 'selected' : ''; ?>>Usuario</option>
-                <option value="administrador" <?= isset($usuario) && $usuario['rol'] === 'administrador' ? 'selected' : ''; ?>>Administrador</option>
+                <option value="usuario" <?= (isset($_POST['datos']['rol']) && $_POST['datos']['rol'] === 'usuario') ? 'selected' : ''; ?>>Usuario</option>
+                <option value="administrador" <?= (isset($_POST['datos']['rol']) && $_POST['datos']['rol'] === 'administrador') ? 'selected' : ''; ?>>Administrador</option>
             </select>
         <?php endif; ?>
         <br>

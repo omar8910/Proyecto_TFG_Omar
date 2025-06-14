@@ -111,12 +111,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (isset($mensajesError)) : ?>
-                        <?php foreach ($mensajesError as $mensaje) : ?>
-                            <tr>
-                                <td colspan="6" class="error-message"><?= $mensaje; ?></td>
-                            </tr>
+                    <?php if (isset($_SESSION['mensajesError'])) : ?>
+                        <?php foreach ($_SESSION['mensajesError'] as $mensaje) : ?>
+                                <p class="error-message"><?= htmlspecialchars($mensaje); ?></p>
+                
                         <?php endforeach; ?>
+                        <?php unset($_SESSION['mensajesError']); ?>
                     <?php endif; ?>
                     <?php foreach ($usuarios as $usuario) : ?>
                         <?php if ((isset($_GET['id'])) && $usuario['id'] == $_GET['id']) : ?>
