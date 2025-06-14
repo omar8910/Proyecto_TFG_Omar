@@ -36,6 +36,14 @@ class CategoriaController
     {
         if (isset($_POST['nombre'])) {
             $nombre = $_POST['nombre'];
+            $errores = $this->validarCategoria($nombre);
+            if (!empty($errores)) {
+                $this->pages->render('Administrador/crearCategoria', [
+                    'errores' => $errores,
+                    'old' => $_POST
+                ]);
+                return;
+            }
             $categoria = new Categoria($nombre);
             $categoria->setNombre($nombre);
             $this->categoriaServices->create($categoria);
@@ -73,6 +81,16 @@ class CategoriaController
             $datos = $_POST['datos'];
             $id = $datos['id'];
             $nombre = $datos['nombre'];
+            $errores = $this->validarCategoria($nombre);
+            if (!empty($errores)) {
+                $categorias = $this->categoriaServices->obtenerTodasCategorias();
+                $this->pages->render('Administrador/gestionarCategorias', [
+                    'categorias' => $categorias,
+                    'errores' => $errores,
+                    'old' => $datos
+                ]);
+                return;
+            }
             $this->categoriaServices->update($id, $nombre);
             $this->gestionarCategorias();
         }
@@ -87,5 +105,18 @@ class CategoriaController
         $menu = $this->obtenerTodasCategorias();
 
         $this->pages->render('Categoria/verCategoria', ['productos' => $productos, 'categoria' => $categoria, 'menu' => $menu]);
+    }
+
+    // Método para validar el nombre de la categoría
+    private function validarCategoria($nombre) {
+        $errores = [];
+        if (!isset($nombre) || $nombre === '' || !is_string($nombre)) {
+            $errores[] = 'El nombre de la categoría es obligatorio y debe ser un texto.';
+        } elseif (strlen(trim($nombre)) < 3) {
+            $errores[] = 'El nombre de la categoría debe tener al menos 3 caracteres.';
+        } elseif (!preg_match('/^[\p{L} _-]+$/u', $nombre)) {
+            $errores[] = 'El nombre de la categoría solo puede contener letras, números, espacios, guiones y guiones bajos.';
+        }
+        return $errores;
     }
 }

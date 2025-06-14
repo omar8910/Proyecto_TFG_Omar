@@ -85,6 +85,16 @@
         margin-bottom: 20px;
         color: white;
     }
+
+    .error-message {
+        color: #ff4d4d;
+        background-color: #331515;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        width: 50%;
+        text-align: center;
+    }
 </style>
 
 
@@ -104,12 +114,11 @@
                 <?php
                 // var_dump($categorias);
                 ?>
-                <?php if (isset($mensajesError)) : ?>
-                    <?php foreach ($mensajesError as $mensaje) : ?>
-                        <tr>
-                            <td colspan="3" class="error-message"><?= $mensaje; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
+                <?php if (isset($errores) && is_array($errores)) : ?>
+                            <?php foreach ($errores as $error) : ?>
+                                <p class="error-message" ><?= htmlspecialchars($error) ?></p>
+                            <?php endforeach; ?>
+
                 <?php endif; ?>
                 <?php foreach ($categorias as $categoria) : ?>
                     <?php if ((isset($_GET['id'])) && $categoria['id'] == $_GET['id']) : ?>
@@ -117,7 +126,7 @@
                             <tr>
                                 <td><?= $categoria['id']; ?></td>
 
-                                <td><input type="text" name="datos[nombre]" value="<?= $categoria['nombre']; ?>"></td>
+                                <td><input type="text" name="datos[nombre]" value="<?= isset($old['nombre']) ? htmlspecialchars($old['nombre']) : $categoria['nombre']; ?>"></td>
                                 <td>
                                     <input type="hidden" name="datos[id]" value="<?= $categoria['id']; ?>">
                                     <input type="submit" value="Guardar" class="btn">
