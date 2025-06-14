@@ -22,7 +22,7 @@
     }
     .mensaje-pago-container a {
         display: inline-block;
-        background: #007bff;
+        background: #ff4c4c;
         color: #fff;
         padding: 12px 28px;
         border-radius: 6px;
@@ -33,7 +33,7 @@
         margin-top: 10px;
     }
     .mensaje-pago-container a:hover {
-        background: #0056b3;
+        background:rgb(248, 108, 108);
     }
     .mensaje-pago-container .icono {
         font-size: 3em;

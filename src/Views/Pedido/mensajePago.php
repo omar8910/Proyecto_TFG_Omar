@@ -33,7 +33,7 @@
         margin-top: 10px;
     }
     .mensaje-pago-container a:hover {
-        background: #218838;
+        background:rgb(96, 240, 130);
     }
     .mensaje-pago-container .icono {
         font-size: 3em;
