@@ -84,7 +84,7 @@
             <h2><?= ($producto["nombre"]) ?></h2>
             <p>Descripcion: <?= ($producto["descripcion"]) ?></p>
             <p>Stock: <?= ($producto["stock"]) ?></p>
-            <p class="price">Precio: $<?= number_format($producto["precio"], 2) ?></p>
+            <p class="price">Precio: <?= number_format($producto["precio"], 2) . " €" ?></p>
             <div class="back-link">
                 <a href="<?= BASE_URL ?>">Volver a la lista de productos</a>
                 <a href="<?= BASE_URL ?>Carrito/agregarProducto/?id=<?= $producto['id'] ?>">Agregar al carrito</a>
