@@ -188,11 +188,11 @@
             <input type="email" name="datos[email]" value="<?= htmlspecialchars($usuario['email']) ?>" required>
 
             <input type="hidden" name="datos[id]" value="<?= $usuario['id']; ?>">
+            <input type="hidden" name="datos[rol]" value="<?= htmlspecialchars($usuario['rol']) ?>">
 
             <div class="buttonContainer">
                 <input type="submit" value="Guardar Cambios" class="btn">
                 <a href="<?= BASE_URL ?>" class="btn cancel-btn">Cancelar</a>
-
             </div>
         </form>
     </section>
