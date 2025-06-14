@@ -29,6 +29,12 @@ class CarritoController
         $id_producto = $_GET['id'];
         $producto = $this->productoServices->getById($id_producto);
         if ($producto) {
+            // Bloqueo: si el stock es 0, no permitir agregar al carrito
+            if (isset($producto['stock']) && $producto['stock'] == 0) {
+                $_SESSION['error_carrito'] = 'No puedes añadir este producto al carrito porque no hay stock disponible.';
+                header('Location:' . BASE_URL . 'Carrito/verCarrito');
+                return;
+            }
             if (!isset($_SESSION['carrito'][$id_producto])) {
                 $_SESSION['carrito'][$id_producto] = $producto;
                 $_SESSION['carrito'][$id_producto]['cantidad'] = 1;
@@ -65,6 +71,7 @@ class CarritoController
         if (!isset($_SESSION['carrito'])) {
             $_SESSION['carrito'] = [];
         }
+        // Comprobar si hay productos con stock 0
         $productos = $_SESSION['carrito'];
         $cantidadProductos = $this->cantidadProductos();
         $cantidadDinero = $this->cantidadDineroTotal();
