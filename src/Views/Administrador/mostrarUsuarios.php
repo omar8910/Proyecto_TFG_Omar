@@ -87,6 +87,16 @@
         color: #dc3545;
         margin-top: 20px;
     }
+
+    /* Estilos para mensaje de éxito */
+    .success-message {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+        text-align: center;
+    }
 </style>
 
 <div class="main-content">
@@ -98,6 +108,12 @@
             <?php if (isset($_SESSION['error'])) : ?>
                 <div class="error-message"><?= $_SESSION['error']; ?></div>
                 <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['actualizacion']) && $_SESSION['actualizacion'] == 'correcta') : ?>
+                <div class="success-message">
+                    ¡Usuario actualizado correctamente!
+                </div>
+                <?php unset($_SESSION['actualizacion']); ?>
             <?php endif; ?>
             <table class="user-table">
                 <thead>
