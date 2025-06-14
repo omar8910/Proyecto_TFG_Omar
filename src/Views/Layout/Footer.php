@@ -104,25 +104,25 @@
         <!-- Logo and Description -->
         <div class="footer-section">
             <img src="https://cdn.pccomponentes.com/img/logos/logo-pccomponentes.png" alt="Logo" class="footer-logo">
-            <p>En <strong>TuMarcaGaming</strong>, ofrecemos los mejores componentes para llevar tu experiencia de juego al siguiente nivel. Desde tarjetas gráficas hasta periféricos de alta calidad, tenemos todo lo que necesitas.</p>
+            <p>En <strong>PcComponentes Omar</strong>, ofrecemos los mejores componentes para llevar tu experiencia de juego al siguiente nivel. Desde tarjetas gráficas hasta periféricos de alta calidad, tenemos todo lo que necesitas.</p>
         </div>
 
         <!-- Quick Links -->
         <div class="footer-section">
             <h3>Enlaces Rápidos</h3>
             <ul>
-                <li><a href="/inicio">Inicio</a></li>
-                <li><a href="/productos">Productos</a></li>
-                <li><a href="/ofertas">Ofertas</a></li>
-                <li><a href="/contacto">Contacto</a></li>
-                <li><a href="/faq">FAQ</a></li>
+                <li><a href="<?= BASE_URL ?>">Inicio</a></li>
+                <li><a href="<?= BASE_URL ?>">Productos</a></li>
+                <li><a href="<?= BASE_URL ?>">Ofertas</a></li>
+                <li><a href="<?= BASE_URL ?>">Contacto</a></li>
+                <li><a href="<?= BASE_URL?>">FAQ</a></li>
             </ul>
         </div>
 
         <!-- Contact Information -->
         <div class="footer-section">
             <h3>Contacto</h3>
-            <p><strong>Email:</strong> soporte@tumarcamaming.com</p>
+            <p><strong>Email:</strong> soporte@PcComponentesOmar.com</p>
             <p><strong>Teléfono:</strong> +34 123 456 789</p>
             <p><strong>Dirección:</strong> Calle Falsa 123, Ciudad Gaming, País</p>
         </div>
@@ -131,24 +131,32 @@
         <div class="footer-section">
             <h3>Síguenos</h3>
             <div>
-                <a href="https://www.facebook.com/tumarcagaming" class="social-link"><img src="facebook-icon.png" alt="Facebook" class="social-icon"> Facebook</a>
+                <a href="https://www.facebook.com/pccomponentes/?locale=es_ES" class="social-link" target="_blank">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook" class="social-icon" style="width:24px;height:24px;vertical-align:middle;"> Facebook
+                </a>
             </div>
             <div>
-                <a href="https://www.twitter.com/tumarcagaming" class="social-link"><img src="twitter-icon.png" alt="Twitter" class="social-icon"> Twitter</a>
+                <a href="https://x.com/pccomponentes?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" class="social-link" target="_blank">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg" alt="X (Twitter)" class="social-icon" style="width:24px;height:24px;vertical-align:middle;"> X (Twitter)
+                </a>
             </div>
             <div>
-                <a href="https://www.instagram.com/tumarcagaming" class="social-link"><img src="instagram-icon.png" alt="Instagram" class="social-icon"> Instagram</a>
+                <a href="https://www.instagram.com/pccomponentes/?hl=es" class="social-link" target="_blank">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" class="social-icon" style="width:24px;height:24px;vertical-align:middle;"> Instagram
+                </a>
             </div>
             <div>
-                <a href="https://www.youtube.com/tumarcagaming" class="social-link"><img src="youtube-icon.png" alt="YouTube" class="social-icon"> YouTube</a>
+                <a href="https://www.youtube.com/c/pccomponentes" class="social-link" target="_blank">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube" class="social-icon" style="width:24px;height:24px;vertical-align:middle;"> YouTube
+                </a>
             </div>
         </div>
     </div>
 
     <!-- Footer Bottom -->
     <div class="footer-bottom">
-        <p>&copy; 2024 TuMarcaGaming. Todos los derechos reservados.</p>
-        <p><a href="/politica-de-privacidad">Política de Privacidad</a> | <a href="/terminos-y-condiciones">Términos y Condiciones</a></p>
+        <p>&copy; 2025 PcComponentes OMAR. Todos los derechos reservados.</p>
+        <p><a href="<?=BASE_URL?>">Política de Privacidad</a> | <a href="<?=BASE_URL?>">Términos y Condiciones</a></p>
     </div>
 </footer>
 </body>
