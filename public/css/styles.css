@@ -1,6 +1,7 @@
 /* Body */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Open Sans', Arial, Tahoma, Segoe UI, sans-serif;
+    font-size: 18px;
     margin: 0;
     padding: 0;
     background-color: #111;
