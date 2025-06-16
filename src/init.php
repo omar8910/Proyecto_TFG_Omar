@@ -18,9 +18,9 @@ require_once '../vendor/autoload.php';
 // Incluye el archivo de configuración config.php
 require_once '../config/config.php';
 
-// Carga las variables de entorno desde un archivo .env ubicado en el directorio raíz del proyecto
-$dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__, 1));
-$dotenv->safeLoad();
+// Carga las variables de entorno desde un archivo .env ubicado en el directorio raíz del proyecto ( EN LOCAL)
+// $dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__, 1));
+// $dotenv->safeLoad();
 
 
 // Verifica si la cookie de usuario ha expirado y cierra la sesión si es necesario.
