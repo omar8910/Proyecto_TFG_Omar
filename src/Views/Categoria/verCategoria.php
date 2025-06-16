@@ -164,14 +164,18 @@
                 <div class="no-products">
                     <h2>No se añadieron productos a esta categoría</h2>
                     <p>Lo sentimos.</p>
-                    <img src="<?= BASE_URL ?>public/img/sin_productos/oos.png" alt="No hay productos">
+                    <!-- <img src="<?= BASE_URL ?>public/img/sin_productos/oos.png" alt="No hay productos"> Ruta local -->
+                    <img src="<?= BASE_URL ?>img/sin_productos/oos.png" alt="No hay productos">
+
                 </div>
             <?php else : ?>
                 <div class="product-container">
                     <?php foreach ($productos as $producto) : ?>
                         <div class="product">
                             <div class="imgContainer">
-                                <img src="<?= BASE_URL ?>public/img/productos/<?= ($producto["imagen"]) ?>" alt="<?= ($producto["nombre"]) ?>">
+                                <!-- <img src="<?= BASE_URL ?>public/img/productos/<?= ($producto["imagen"]) ?>" alt="<?= ($producto["nombre"]) ?>"> Ruta local -->
+                                <img src="<?= BASE_URL ?>img/productos/<?= ($producto["imagen"]) ?>" alt="<?= ($producto["nombre"]) ?>">
+                            
                             </div>
                             <h2><?= ($producto["nombre"]) ?></h2>
                             <p><?= ($producto["descripcion"]) ?></p>
