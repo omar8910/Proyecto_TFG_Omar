@@ -164,7 +164,7 @@ class UsuarioRepository
     // Método para actualizar los datos de un usuario
     public function update($usuario)
     {
-        var_dump($usuario);
+        // var_dump($usuario);
         $id = $usuario->getId();
         $nombre = $usuario->getNombre();
         $apellidos = $usuario->getApellidos();
