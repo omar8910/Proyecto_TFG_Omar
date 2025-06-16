@@ -2,6 +2,10 @@
 // Inicia una nueva sesión o reanuda la sesión existente
 session_start();
 
+// Desactivar todos los errores visibles en producción
+error_reporting(0);
+ini_set('display_errors', 0);
+
 // Importa la clase Routes del espacio de nombres Routes
 use Routes\Routes;
 
@@ -30,6 +34,8 @@ if (isset($_SESSION['inicioSesion'])) {
         exit();
     }
 }
+
+
 
 
 // Llama al método index de la clase Routes para manejar las rutas de la aplicación
