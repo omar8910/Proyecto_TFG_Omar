@@ -6,6 +6,9 @@ session_start();
 error_reporting(0);
 ini_set('display_errors', 0);
 
+// Añadir horario de la zona horaria de España
+date_default_timezone_set('Europe/Madrid');
+
 // Importa la clase Routes del espacio de nombres Routes
 use Routes\Routes;
 
