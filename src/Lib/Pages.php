@@ -21,11 +21,11 @@ class Pages
         $rutasVistas = dirname(__DIR__, 1) . "/Views/";
 
         // Incluye el archivo de la cabecera
-        require_once $rutasVistas . "Layout/header.php";
+        require_once $rutasVistas . "Layout/Header.php";
         // Incluye el archivo de la vista específica
         require_once $rutasVistas . "$pageName.php";
         // Incluye el archivo del pie de página
-        require_once $rutasVistas . "Layout/footer.php";
+        require_once $rutasVistas . "Layout/Footer.php";
     }
 }
 ?>
