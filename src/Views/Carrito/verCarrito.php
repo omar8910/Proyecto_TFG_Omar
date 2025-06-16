@@ -153,7 +153,8 @@
                             <tr>
                                 <td>
                                     <div class="cart-product">
-                                        <img src="<?= BASE_URL ?>public/img/productos/<?= ($producto['imagen']) ?>" alt="<?= ($producto['nombre']) ?>">
+                                        <!-- <img src="<?= BASE_URL ?>public/img/productos/<?= ($producto['imagen']) ?>" alt="<?= ($producto['nombre']) ?>"> Ruta local -->
+                                        <img src="<?= BASE_URL ?>img/productos/<?= ($producto['imagen']) ?>" alt="<?= ($producto['nombre']) ?>">
                                 </td>
                                 <td>
                                     <div class="cart-product">

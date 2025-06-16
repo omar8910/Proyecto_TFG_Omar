@@ -80,7 +80,8 @@
 <body>
     <div class="containerProducto">
         <div class="product-detail">
-            <img src="<?= BASE_URL ?>public/img/productos/<?= $producto['imagen'] ?>" alt="<?= ($producto["nombre"]) ?>">
+            <!-- <img src="<?= BASE_URL ?>public/img/productos/<?= $producto['imagen'] ?>" alt="<?= ($producto["nombre"]) ?>"> Ruta local -->
+            <img src="<?= BASE_URL ?>img/productos/<?= $producto['imagen'] ?>" alt="<?= ($producto["nombre"]) ?>">
             <h2><?= ($producto["nombre"]) ?></h2>
             <p>Descripcion: <?= ($producto["descripcion"]) ?></p>
             <p>Stock: <?= ($producto["stock"]) ?></p>
