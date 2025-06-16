@@ -123,7 +123,8 @@
             <?php foreach ($productos as $producto) : ?>
                 <div class="product">
                     <div class="imgContainer">
-                        <img src="<?= BASE_URL ?>public/img/productos/<?= ($producto["imagen"]) ?>" alt="<?= ($producto["nombre"]) ?>">
+                        <!-- <img src="<?= BASE_URL ?>public/img/productos/<?= ($producto["imagen"]) ?>" alt="<?= ($producto["nombre"]) ?>"> Ruta local-->
+                        <img src="<?= BASE_URL ?>img/productos/<?= ($producto["imagen"]) ?>" alt="<?= ($producto["nombre"]) ?>">
                     </div>
                     <h2><?= ($producto["nombre"]) ?></h2>
                     <p><?= ($producto["descripcion"]) ?></p>
