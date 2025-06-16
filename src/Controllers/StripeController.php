@@ -16,8 +16,8 @@ class StripeController {
     public function __construct() {
         require_once __DIR__ . '/../../vendor/autoload.php';
         // Cargar variables de entorno (.env) para Stripe
-        $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
-        $dotenv->load();
+        // $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+        // $dotenv->load();
         $this->pedidoService = new PedidoServices(new PedidoRepository());
         $this->pages = new Pages();
     }

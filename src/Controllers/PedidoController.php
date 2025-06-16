@@ -180,8 +180,8 @@ class PedidoController
                     ];
                     // Ir directamente a la plataforma de pago Stripe (crear sesión y redirigir)
                     require_once __DIR__ . '/../../vendor/autoload.php';
-                    $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
-                    $dotenv->load();
+                    // $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+                    // $dotenv->load();
                     \Stripe\Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
                     $carrito = $_SESSION['carrito'];
                     $pedidoService = new \Services\PedidoServices(new \Repositories\PedidoRepository());
