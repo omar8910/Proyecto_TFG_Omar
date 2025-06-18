@@ -19,7 +19,7 @@ class ProductoController
     {
         $this->pages = new Pages();
         $this->productoServices = new ProductoServices(new ProductoRepository());
-        $this->categoriaServices = new CategoriaServices(new CategoriaRepository()); // Falta por implementar
+        $this->categoriaServices = new CategoriaServices(new CategoriaRepository()); 
     }
 
     // Método para gestionar los productos

@@ -88,7 +88,10 @@ use Utils\Utils;
 
     .error-message {
         color: #ff0000;
-        margin-bottom: 20px;
+        background-color: #330000;
+        padding: 10px;
+        border-radius: 5px;
+
     }
 
     /* Recordar usuario */
@@ -105,13 +108,12 @@ use Utils\Utils;
     <h1>Iniciar sesión</h1>
     <?php if (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion'] === 'correcto') : ?>
         <p class="success-message">Sesión iniciada correctamente</p>
-    <?php elseif (isset($_SESSION['inicioSesion']) && $_SESSION['inicioSesion'] === 'incorrecto') : ?>
-        <?php if (isset($mensajesError)) : ?>
-            <?php foreach ($mensajesError as $mensaje) : ?>
-                <p class="error-message"><?= $mensaje; ?></p>
-            <?php endforeach; ?>
-        <?php endif; ?>
-        <?php Utils::eliminarSesion('inicioSesion'); ?>
+    <?php endif; ?>
+
+    <?php if (isset($mensajesError)) : ?>
+        <?php foreach ($mensajesError as $mensaje) : ?>
+            <p class="error-message"><?= $mensaje; ?></p>
+        <?php endforeach; ?>
     <?php endif; ?>
 
     <?php if (!isset($_SESSION['inicioSesion']) || $_SESSION['inicioSesion'] == 'incorrecto') : ?>

@@ -177,9 +177,9 @@ class UsuarioController
                             $_SESSION['recordarUsuario'] = true;
 
                             // Crear cookie válida por 7 días
-                            // setcookie('usuario', $_SESSION['inicioSesion']->email, time() + (7 * 24 * 60 * 60), "/"); // Expira en 7 días
+                            setcookie('usuario', $_SESSION['inicioSesion']->email, time() + (7 * 24 * 60 * 60), "/"); // Expira en 7 días
                             // Valida para un minuto para probar
-                            setcookie('usuario', $_SESSION['inicioSesion']->email, time() + (1 * 60), "/"); // Expira en 1 minuto
+                            // setcookie('usuario', $_SESSION['inicioSesion']->email, time() + (1 * 60), "/"); // Expira en 1 minuto
                         } else {
                             $_SESSION['recordarUsuario'] = false;
                         }
